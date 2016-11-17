@@ -15,6 +15,7 @@
 		DA3196EE1DDD6777007A846C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA3196ED1DDD6777007A846C /* Main.storyboard */; };
 		DA3196F41DDD6A76007A846C /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3196F31DDD6A76007A846C /* MenuViewController.swift */; };
 		DA3196F81DDD7551007A846C /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3196F71DDD7551007A846C /* MenuView.swift */; };
+		DA3196FA1DDD8307007A846C /* MenuTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3196F91DDD8307007A846C /* MenuTableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		DA3196ED1DDD6777007A846C /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		DA3196F31DDD6A76007A846C /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		DA3196F71DDD7551007A846C /* MenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
+		DA3196F91DDD8307007A846C /* MenuTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableView.swift; sourceTree = "<group>"; };
 		E1F22ED42A4E6E92BB138A49 /* Pods-CongressInfo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CongressInfo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CongressInfo/Pods-CongressInfo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -282,6 +284,7 @@
 			isa = PBXGroup;
 			children = (
 				DA3196F71DDD7551007A846C /* MenuView.swift */,
+				DA3196F91DDD8307007A846C /* MenuTableView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -418,6 +421,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA3196FA1DDD8307007A846C /* MenuTableView.swift in Sources */,
 				DA3196EC1DDD45A0007A846C /* MainTabBarController.swift in Sources */,
 				DA3196F81DDD7551007A846C /* MenuView.swift in Sources */,
 				DA3196F41DDD6A76007A846C /* MenuViewController.swift in Sources */,
