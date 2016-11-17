@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MainTabBarController: UITabBarController, MenuItemDelegate {
+class MainTabBarController: UITabBarController, MenuItemDelegate, UITabBarControllerDelegate {
     
     var openMenu = false
     let screenSize: CGRect = UIScreen.main.bounds
@@ -17,13 +17,31 @@ class MainTabBarController: UITabBarController, MenuItemDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
-        navigationItem.title = categoryName
+//        navigationItem.title = categoryName
         self.navigationController?.navigationBar.barStyle = UIBarStyle.blackTranslucent
         
         self.navigationController?.navigationBar.barTintColor=UIColor.white
-        print(navigationItem)
+//        print(navigationItem)
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(test))
-        // Do any additional setup after loading the view.
+//        self.navigationController?.navigationBar.backgroundColor = UIColor.blue
+    }
+    
+    func loadLegislators() -> Void {
+        let stateVC = LegislatorStateTableViewController()
+        let controllers = [stateVC]
+        self.viewControllers = controllers
+    }
+    
+    func loadBills() -> Void {
+        let activeVC = BillActiveTableViewController()
+        let controllers = [activeVC]
+        self.viewControllers = controllers
+    }
+    
+    func loadCommittee() -> Void {
+        let houseVC = CommitteeHouseTableViewController()
+        let controllers = [houseVC]
+        self.viewControllers = controllers
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -45,7 +63,26 @@ class MainTabBarController: UITabBarController, MenuItemDelegate {
     
     func didSelectItemAtIndex(button: UIButton) {
         categoryName = String(button.tag)
-        print("hello")
+        switch button.tag {
+        case 0:
+            loadLegislators()
+            break
+        case 1:
+            loadBills()
+            break
+        case 2:
+            loadCommittee()
+        default:
+            break
+        }
+        print(categoryName)
+//        loadLegislators()
+//        viewDidLoad()
+    }
+    
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        print(viewController)
+        return true
     }
 
 }

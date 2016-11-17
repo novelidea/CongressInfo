@@ -81,25 +81,25 @@ class MenuView: UIView {
     
     func menuItemClicked(sender: UIButton) -> Void {
         self.delegate.didSelectItemAtIndex(button: sender)
-        switch sender.tag {
-        case 0:
-            print("Legislators")
-            break
-        case 1:
-            print("Bills")
-            break
-        case 2:
-            print("Committee")
-            break
-        case 3:
-            print("Favorite")
-            break
-        case 4:
-            print("About")
-            break
-        default:
-            break
-        }
+//        switch sender.tag {
+//        case 0:
+//            print("Legislators")
+//            break
+//        case 1:
+//            print("Bills")
+//            break
+//        case 2:
+//            print("Committee")
+//            break
+//        case 3:
+//            print("Favorite")
+//            break
+//        case 4:
+//            print("About")
+//            break
+//        default:
+//            break
+//        }
     }
     
     func removeSelf() -> Void {
