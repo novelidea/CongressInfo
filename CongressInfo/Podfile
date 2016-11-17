@@ -7,4 +7,6 @@ target 'CongressInfo' do
 
   # Pods for CongressInfo
 
+  pod 'AFNetworking', '~> 3.0'
+
 end
