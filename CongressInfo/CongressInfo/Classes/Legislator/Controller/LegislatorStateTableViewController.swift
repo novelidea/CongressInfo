@@ -11,6 +11,7 @@ import Alamofire
 
 class LegislatorStateTableViewController: UITableViewController {
 
+    var legislators = NSArray()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.brown
@@ -20,17 +21,65 @@ class LegislatorStateTableViewController: UITableViewController {
     }
     
     func downloadData() -> Void {
-        Alamofire.request(baseURLStr + "f=legislatorshouse").validate().responseJSON { response in
-            switch response.result {
-            case .success:
-                print(response)
-                self.tableView.reloadData()
-//                print("Validation Successful")
-            case .failure(let error):
-                print(response)
-                print(error)
+//        baseURLStr + "f=legislatorshouse"
+//        Alamofire.request("http://www.learnswiftonline.com/Samples/subway.json").validate().responseJSON { response in
+//            switch response.result {
+//            case .success:
+//                print(response)
+////                let data = response["result"] as! NSArray
+//                
+////                self.tableView.reloadData()
+////                print("Validation Successful")
+//            case .failure(let error):
+//                print(response)
+//                print(error)
+//            }
+//        }
+//        let requestURL: NSURL = NSURL(string: "http://www.learnswiftonline.com/Samples/subway.json")!
+        let requestURL: NSURL = NSURL(string: baseURLStr + "f=legislatorshouse")!
+        let urlRequest: NSMutableURLRequest = NSMutableURLRequest(url: requestURL as URL)
+        let session = URLSession.shared
+        let task = session.dataTask(with: urlRequest as URLRequest) {
+            (data, response, error) -> Void in
+            
+            let httpResponse = response as! HTTPURLResponse
+            let statusCode = httpResponse.statusCode
+            
+            if (statusCode == 200) {
+                print("Everyone is fine, file downloaded successfully.")
+                do{
+                    
+//                    let json = try JSONSerialization.jsonObject(with: data!, options:.allowFragments)
+                    let json = try JSONSerialization.jsonObject(with: data!, options:.allowFragments) as! [String:AnyObject]
+
+//                    print(json)
+                    if let results = json["results"] as? [[String: AnyObject]] {
+//                        if let results = stations["results"] as? [[String: AnyObject]] {
+//                            print(stations)
+//                        }
+                        for legislator in results {
+//                            print(station)
+                            print("=========================================================")
+                            let model = LegislatorModel.initLegislatorWithDict(data: legislator)
+                            print(model.bioguide_id)
+//                            if let name = legislator["bioguide_id"] as? String {
+//                                
+//                                if let year = legislator["first_name"] as? String {
+//                                    print(name,year)
+//                                }
+//                                
+//                            }
+                        }
+                        
+                    }
+                    
+                }catch {
+                    print("Error with Json: \(error)")
+                }
             }
         }
+        
+        task.resume()
     }
 
     override func didReceiveMemoryWarning() {
