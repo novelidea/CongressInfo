@@ -87,22 +87,25 @@ class LegislatorStateTableViewController: UITableViewController {
         cell.detailTextLabel?.text = model.state
         
         let url = URL(string: legislatorThumbailURLStrBase + model.bioguide_id + ".jpg")
-//
+
         DispatchQueue.global().async {
             if let data = try? Data(contentsOf: url!) {
                 DispatchQueue.main.async {
                     cell.imageView?.image = UIImage(data: data)
+                    model.profile = data
                 }
             }
             
         }
         
-        
+//        cell.imageView?.image = UIImage(data: model.profile)
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let detailVC = LegislatorDetailViewController()
+        detailVC.legislatorDetail = self.legislators[indexPath.row]
+        self.navigationController?.pushViewController(detailVC, animated: true)
     }
  
 

@@ -17,10 +17,19 @@ class LegislatorModel: NSObject {
     var name = String()
     var state = String()
     var birthday = String()
+    var profile = Data()
     class func initLegislatorWithDict(data: [String: AnyObject]) -> LegislatorModel {
         let instance = LegislatorModel()
         if let bioguide_id = data["bioguide_id"] as? String {
             instance.bioguide_id = bioguide_id
+//            let url = URL(string: legislatorThumbailURLStrBase + bioguide_id + ".jpg")
+//            DispatchQueue.global().async {
+//                if let data = try? Data(contentsOf: url!) {
+//                    DispatchQueue.main.async {
+//                        instance.profile = data
+//                    }
+//                }
+//            }
         }
         if let chamber = data["chamber"] as? String {
             instance.chamber = chamber

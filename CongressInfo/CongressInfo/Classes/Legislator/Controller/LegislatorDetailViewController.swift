@@ -9,16 +9,26 @@
 import UIKit
 
 class LegislatorDetailViewController: UIViewController {
+    
+    var legislatorDetail = LegislatorModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.view.backgroundColor = UIColor.white
+        addChildView()
         // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func addChildView() -> Void {
+        let profile = UIImage(data: self.legislatorDetail.profile)
+        let profileView = UIImageView(image: profile)
+        profileView.frame = CGRect(x: screenWidth * 0.3, y: 90, width: screenWidth * 0.4, height: screenHeight * 0.25)
+        self.view.addSubview(profileView)
     }
     
 
