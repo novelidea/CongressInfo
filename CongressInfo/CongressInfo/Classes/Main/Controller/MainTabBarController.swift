@@ -79,12 +79,12 @@ class MainTabBarController: UITabBarController, MenuItemDelegate, UITabBarContro
         self.viewControllers = controllers
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        navigationItem.title = categoryName
-        print(categoryName)
-
-
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+////        navigationItem.title = categoryName
+//        print(categoryName)
+//
+//
+//    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -117,7 +117,7 @@ class MainTabBarController: UITabBarController, MenuItemDelegate, UITabBarContro
         default:
             break
         }
-        print(categoryName)
+//        print(categoryName)
         self.tabBarController?.selectedIndex = 0
 //        loadLegislators()
 //        viewDidLoad()
