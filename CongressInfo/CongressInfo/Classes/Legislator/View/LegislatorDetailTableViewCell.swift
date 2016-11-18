@@ -25,16 +25,27 @@ class LegislatorDetailTableViewCell: UITableViewCell {
     var cellLink = String()
     
     class func initCellWithValue(name : String, value : String) -> LegislatorDetailTableViewCell {
-        let cell = LegislatorDetailTableViewCell()
+        let cell = LegislatorDetailTableViewCell(style: .default, reuseIdentifier: "LegislatorDetailTableCell")
         cell.cellName = name
         cell.cellValue = value
+        cell.addChildView()
         return cell
+    }
+    
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+//        addChildView()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     
     func addChildView() -> Void {
         let cellNameLabel = UILabel()
         cellNameLabel.text = cellName
+        
         cellNameLabel.frame = CGRect(x: 10, y: 0, width: self.frame.width * 0.4, height: self.frame.height)
         self.addSubview(cellNameLabel)
         

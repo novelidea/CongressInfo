@@ -60,7 +60,7 @@ class LegislatorModel: NSObject {
             instance.birthday = birthday
         }
         if let gender = data["gender"] as? String {
-            instance.gender = gender
+            instance.gender = (gender == "M" ? "Male" : "Female")
         }
         if let fax = data["fax"] as? String {
             instance.fax = fax

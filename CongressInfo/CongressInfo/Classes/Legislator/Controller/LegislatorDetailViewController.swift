@@ -11,7 +11,7 @@ import UIKit
 class LegislatorDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var legislatorDetail = LegislatorModel()
-    let detailTable = UITableView()
+    let detailTable = UITableView(frame: CGRect(x: 10, y: screenHeight * 0.4, width: screenWidth - 20, height: screenHeight * 0.6))
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,7 +19,7 @@ class LegislatorDetailViewController: UIViewController, UITableViewDelegate, UIT
         addChildView()
         detailTable.delegate = self
         detailTable.dataSource = self
-        
+        self.view.addSubview(self.detailTable)
         // Do any additional setup after loading the view.
     }
 
@@ -41,7 +41,7 @@ class LegislatorDetailViewController: UIViewController, UITableViewDelegate, UIT
     }
     
     func addDetailTable() -> Void {
-        self.view.addSubview(self.detailTable)
+        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -83,10 +83,10 @@ class LegislatorDetailViewController: UIViewController, UITableViewDelegate, UIT
     
     func initCellByValue(name : String, value : String) -> LegislatorDetailTableViewCell {
         if (value.characters.count > 0) {
-            let cell = LegislatorDetailTableViewCell.initCellWithValue(name : "Fax No.", value : value)
+            let cell = LegislatorDetailTableViewCell.initCellWithValue(name : name, value : value)
             return cell
         } else {
-            let cell = LegislatorDetailTableViewCell.initCellWithValue(name : "Fax No.", value : "N.A")
+            let cell = LegislatorDetailTableViewCell.initCellWithValue(name : name, value : "N.A")
             return cell
         }
     }
