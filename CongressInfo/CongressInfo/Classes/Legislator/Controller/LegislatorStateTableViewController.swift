@@ -11,7 +11,7 @@ import Alamofire
 
 class LegislatorStateTableViewController: UITableViewController {
 
-    var legislators = NSArray()
+    var legislators : [LegislatorModel] = []
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.brown
@@ -21,21 +21,6 @@ class LegislatorStateTableViewController: UITableViewController {
     }
     
     func downloadData() -> Void {
-//        baseURLStr + "f=legislatorshouse"
-//        Alamofire.request("http://www.learnswiftonline.com/Samples/subway.json").validate().responseJSON { response in
-//            switch response.result {
-//            case .success:
-//                print(response)
-////                let data = response["result"] as! NSArray
-//                
-////                self.tableView.reloadData()
-////                print("Validation Successful")
-//            case .failure(let error):
-//                print(response)
-//                print(error)
-//            }
-//        }
-//        let requestURL: NSURL = NSURL(string: "http://www.learnswiftonline.com/Samples/subway.json")!
         let requestURL: NSURL = NSURL(string: baseURLStr + "f=legislatorshouse")!
         let urlRequest: NSMutableURLRequest = NSMutableURLRequest(url: requestURL as URL)
         let session = URLSession.shared
@@ -58,29 +43,21 @@ class LegislatorStateTableViewController: UITableViewController {
 //                            print(stations)
 //                        }
                         for legislator in results {
-//                            print(station)
-                            print("=========================================================")
                             let model = LegislatorModel.initLegislatorWithDict(data: legislator)
-                            print(model.bioguide_id)
-//                            if let name = legislator["bioguide_id"] as? String {
-//                                
-//                                if let year = legislator["first_name"] as? String {
-//                                    print(name,year)
-//                                }
-//                                
-//                            }
+                            self.legislators.append(model)
                         }
-                        
                     }
                     
                 }catch {
                     print("Error with Json: \(error)")
                 }
             }
+            self.tableView.reloadData()
         }
         
         task.resume()
     }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -91,23 +68,43 @@ class LegislatorStateTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+//        return self.legislators.count == 0 ? 0 : 1
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        print(self.legislators.count)
+        return self.legislators.count
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let model = self.legislators[indexPath.row] 
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "legislatorsState")
+        cell.textLabel?.text = model.name
+        cell.detailTextLabel?.text = model.state
+        
+        let url = URL(string: legislatorThumbailURLStrBase + model.bioguide_id + ".jpg")
+//
+        DispatchQueue.global().async {
+            if let data = try? Data(contentsOf: url!) {
+                DispatchQueue.main.async {
+                    cell.imageView?.image = UIImage(data: data)
+                }
+            }
+            
+        }
+        
+        
         return cell
     }
-    */
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
+ 
 
     /*
     // Override to support conditional editing of the table view.

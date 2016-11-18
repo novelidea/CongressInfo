@@ -30,6 +30,7 @@
 		DA31971C1DDE8455007A846C /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA31971B1DDE8455007A846C /* AboutViewController.swift */; };
 		DA31971E1DDEB09F007A846C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA31971D1DDEB09F007A846C /* Constants.swift */; };
 		DA3197201DDEC0C0007A846C /* LegislatorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA31971F1DDEC0C0007A846C /* LegislatorModel.swift */; };
+		DA3197221DDEFB34007A846C /* LegislatorDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3197211DDEFB34007A846C /* LegislatorDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +60,7 @@
 		DA31971B1DDE8455007A846C /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		DA31971D1DDEB09F007A846C /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		DA31971F1DDEC0C0007A846C /* LegislatorModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LegislatorModel.swift; sourceTree = "<group>"; };
+		DA3197211DDEFB34007A846C /* LegislatorDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LegislatorDetailViewController.swift; sourceTree = "<group>"; };
 		E1F22ED42A4E6E92BB138A49 /* Pods-CongressInfo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CongressInfo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CongressInfo/Pods-CongressInfo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -211,6 +213,7 @@
 				DA3196FB1DDE74E2007A846C /* LegislatorStateTableViewController.swift */,
 				DA3197031DDE800E007A846C /* LegislatorHouseTableViewController.swift */,
 				DA3197051DDE8020007A846C /* LegislatorSenateTableViewController.swift */,
+				DA3197211DDEFB34007A846C /* LegislatorDetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -546,6 +549,7 @@
 				DA3197141DDE8337007A846C /* FavoriteBillTableViewController.swift in Sources */,
 				DA3197021DDE7EE5007A846C /* MainTabBarItem.swift in Sources */,
 				DA31971E1DDEB09F007A846C /* Constants.swift in Sources */,
+				DA3197221DDEFB34007A846C /* LegislatorDetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -661,6 +665,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = YGY2WW4NV7;
 				INFOPLIST_FILE = CongressInfo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pengfeixing.CongressInfo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -676,6 +681,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = YGY2WW4NV7;
 				INFOPLIST_FILE = CongressInfo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pengfeixing.CongressInfo;
 				PRODUCT_NAME = "$(TARGET_NAME)";

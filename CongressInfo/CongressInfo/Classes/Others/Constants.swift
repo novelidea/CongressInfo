@@ -10,6 +10,7 @@ import Foundation
 
 
 let baseURLStr = "http://54.165.206.61/api.php?"
+let legislatorThumbailURLStrBase = "https://theunitedstates.io/images/congress/original/"
 
 //class Constants: NSObject {
 //
