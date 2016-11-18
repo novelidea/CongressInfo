@@ -28,19 +28,49 @@ class MainTabBarController: UITabBarController, MenuItemDelegate, UITabBarContro
     
     func loadLegislators() -> Void {
         let stateVC = LegislatorStateTableViewController()
-        let controllers = [stateVC]
+        let houseVC = LegislatorHouseTableViewController()
+        let senateVC = LegislatorSenateTableViewController()
+        stateVC.title = "State"
+        houseVC.title = "House"
+        senateVC.title = "Senate"
+        let controllers = [stateVC, houseVC, senateVC]
         self.viewControllers = controllers
     }
     
     func loadBills() -> Void {
         let activeVC = BillActiveTableViewController()
-        let controllers = [activeVC]
+        let newVC = BillNewTableViewController()
+        activeVC.title = "Active"
+        newVC.title = "New"
+        let controllers = [activeVC, newVC]
         self.viewControllers = controllers
     }
     
     func loadCommittee() -> Void {
         let houseVC = CommitteeHouseTableViewController()
-        let controllers = [houseVC]
+        let senateVC = CommitteeSenateTableViewController()
+        let jointVC = CommitteeJointTableViewController()
+        houseVC.title = "House"
+        senateVC.title = "Senate"
+        jointVC.title = "Joint"
+        let controllers = [houseVC, senateVC, jointVC]
+        self.viewControllers = controllers
+    }
+    
+    func loadFavorite() -> Void {
+        let legislatorVC = FavoriteLegislatorTableViewController()
+        let billVC = FavoriteBillTableViewController()
+        let committeeVC = FavoriteCommitteeTableViewController()
+        legislatorVC.title = "Legislators"
+        billVC.title = "Bills"
+        committeeVC.title = "Committees"
+        let controllers = [legislatorVC, billVC, committeeVC]
+        self.viewControllers = controllers
+    }
+    
+    func loadAbout() -> Void {
+        let aboutVC = AboutViewController()
+        let controllers = [aboutVC]
         self.viewControllers = controllers
     }
     
@@ -72,10 +102,18 @@ class MainTabBarController: UITabBarController, MenuItemDelegate, UITabBarContro
             break
         case 2:
             loadCommittee()
+            break
+        case 3:
+            loadFavorite()
+            break
+        case 4:
+            loadAbout()
+            break
         default:
             break
         }
         print(categoryName)
+        self.tabBarController?.selectedIndex = 0
 //        loadLegislators()
 //        viewDidLoad()
     }
