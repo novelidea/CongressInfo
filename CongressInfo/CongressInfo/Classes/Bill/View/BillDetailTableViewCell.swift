@@ -1,5 +1,5 @@
 //
-//  LegislatorDetailTableViewCell.swift
+//  BillDetailTableViewCell.swift
 //  CongressInfo
 //
 //  Created by XingPengfei on 11/18/16.
@@ -8,14 +8,14 @@
 
 import UIKit
 
-class LegislatorDetailTableViewCell: UITableViewCell {
+class BillDetailTableViewCell: UITableViewCell {
 
     var cellName = String()
     var cellValue = String()
     var cellLink = String()
     
-    class func initCellWithValue(name : String, value : String) -> LegislatorDetailTableViewCell {
-        let cell = LegislatorDetailTableViewCell(style: .default, reuseIdentifier: "LegislatorDetailTableCell")
+    class func initCellWithValue(name : String, value : String) -> BillDetailTableViewCell {
+        let cell = BillDetailTableViewCell(style: .default, reuseIdentifier: "BillDetailCell")
         cell.cellName = name
         cell.cellValue = value
         cell.addChildView()
@@ -42,11 +42,12 @@ class LegislatorDetailTableViewCell: UITableViewCell {
         cellValueLabel.text = cellValue
         cellValueLabel.frame = CGRect(x: cellNameLabel.frame.width + 30, y: 0, width: self.frame.width * 0.5, height: self.frame.height)
         
-        if (cellName == "Twitter" || cellName == "Website") {
+        if (cellName == "PDF") {
             cellValueLabel.textColor = UIColor.blue
         }
         
         self.addSubview(cellValueLabel)
     }
+
 
 }

@@ -20,7 +20,8 @@ class LegislatorDetailViewController: UIViewController, UITableViewDelegate, UIT
         detailTable.delegate = self
         detailTable.dataSource = self
         self.view.addSubview(self.detailTable)
-        // Do any additional setup after loading the view.
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"Back", style:.plain, target:nil, action:nil)
+        
     }
 
     override func didReceiveMemoryWarning() {
