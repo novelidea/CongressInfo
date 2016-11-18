@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class LegislatorStateTableViewController: UITableViewController {
 
@@ -15,6 +16,21 @@ class LegislatorStateTableViewController: UITableViewController {
         self.view.backgroundColor = UIColor.brown
         
         navigationController?.navigationBar.topItem?.title = "Legislator"
+        downloadData()
+    }
+    
+    func downloadData() -> Void {
+        Alamofire.request(baseURLStr + "f=legislatorshouse").validate().responseJSON { response in
+            switch response.result {
+            case .success:
+                print(response)
+                self.tableView.reloadData()
+//                print("Validation Successful")
+            case .failure(let error):
+                print(response)
+                print(error)
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {

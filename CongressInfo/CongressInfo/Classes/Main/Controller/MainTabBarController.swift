@@ -17,13 +17,18 @@ class MainTabBarController: UITabBarController, MenuItemDelegate, UITabBarContro
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
-//        navigationItem.title = categoryName
+//
         self.navigationController?.navigationBar.barStyle = UIBarStyle.blackTranslucent
         
         self.navigationController?.navigationBar.barTintColor=UIColor.white
 //        print(navigationItem)
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(test))
 //        self.navigationController?.navigationBar.backgroundColor = UIColor.blue
+        loadLegislators()
+//        loadBills()
+//        navigationItem.title = "Legislator"
+//        navigationController?.navigationBar.topItem?.title = "Legislator"
+
     }
     
     func loadLegislators() -> Void {

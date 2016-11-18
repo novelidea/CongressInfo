@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A7557E9426F919B3F1D4364B /* libPods-CongressInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 390C12ECBEA33361DB010E36 /* libPods-CongressInfo.a */; };
+		0A490D2B7684ED80B86B3210 /* Pods_CongressInfo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56B36D9CE7C3ECC7455CD3A1 /* Pods_CongressInfo.framework */; };
 		DA3196C61DDD3348007A846C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA3196C51DDD3348007A846C /* Assets.xcassets */; };
 		DA3196C91DDD3348007A846C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA3196C71DDD3348007A846C /* LaunchScreen.storyboard */; };
 		DA3196E61DDD3C7B007A846C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3196E21DDD3C7B007A846C /* AppDelegate.swift */; };
@@ -28,10 +28,11 @@
 		DA3197141DDE8337007A846C /* FavoriteBillTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3197131DDE8337007A846C /* FavoriteBillTableViewController.swift */; };
 		DA3197161DDE834B007A846C /* FavoriteCommitteeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3197151DDE834B007A846C /* FavoriteCommitteeTableViewController.swift */; };
 		DA31971C1DDE8455007A846C /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA31971B1DDE8455007A846C /* AboutViewController.swift */; };
+		DA31971E1DDEB09F007A846C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA31971D1DDEB09F007A846C /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		390C12ECBEA33361DB010E36 /* libPods-CongressInfo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CongressInfo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		56B36D9CE7C3ECC7455CD3A1 /* Pods_CongressInfo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CongressInfo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		61A185B3BC72895218CAC998 /* Pods-CongressInfo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CongressInfo.release.xcconfig"; path = "Pods/Target Support Files/Pods-CongressInfo/Pods-CongressInfo.release.xcconfig"; sourceTree = "<group>"; };
 		DA3196BB1DDD3348007A846C /* CongressInfo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CongressInfo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA3196C51DDD3348007A846C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -55,6 +56,7 @@
 		DA3197131DDE8337007A846C /* FavoriteBillTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteBillTableViewController.swift; sourceTree = "<group>"; };
 		DA3197151DDE834B007A846C /* FavoriteCommitteeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteCommitteeTableViewController.swift; sourceTree = "<group>"; };
 		DA31971B1DDE8455007A846C /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		DA31971D1DDEB09F007A846C /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		E1F22ED42A4E6E92BB138A49 /* Pods-CongressInfo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CongressInfo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CongressInfo/Pods-CongressInfo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -63,7 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A7557E9426F919B3F1D4364B /* libPods-CongressInfo.a in Frameworks */,
+				0A490D2B7684ED80B86B3210 /* Pods_CongressInfo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,6 +267,7 @@
 				DA3196E31DDD3C7B007A846C /* Controller */,
 				DA3196E41DDD3C7B007A846C /* Model */,
 				DA3196E51DDD3C7B007A846C /* View */,
+				DA31971D1DDEB09F007A846C /* Constants.swift */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -392,7 +395,7 @@
 		ED659238EA12CB1B4C291BED /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				390C12ECBEA33361DB010E36 /* libPods-CongressInfo.a */,
+				56B36D9CE7C3ECC7455CD3A1 /* Pods_CongressInfo.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -538,6 +541,7 @@
 				DA3196E61DDD3C7B007A846C /* AppDelegate.swift in Sources */,
 				DA3197141DDE8337007A846C /* FavoriteBillTableViewController.swift in Sources */,
 				DA3197021DDE7EE5007A846C /* MainTabBarItem.swift in Sources */,
+				DA31971E1DDEB09F007A846C /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
