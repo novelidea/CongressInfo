@@ -34,7 +34,6 @@ class LegislatorDetailTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-//        addChildView()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -52,6 +51,11 @@ class LegislatorDetailTableViewCell: UITableViewCell {
         let cellValueLabel = UILabel()
         cellValueLabel.text = cellValue
         cellValueLabel.frame = CGRect(x: cellNameLabel.frame.width + 30, y: 0, width: self.frame.width * 0.5, height: self.frame.height)
+        
+        if (cellName == "Twitter" || cellName == "Website") {
+            cellValueLabel.textColor = UIColor.blue
+        }
+        
         self.addSubview(cellValueLabel)
     }
 

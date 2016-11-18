@@ -83,8 +83,17 @@ class LegislatorDetailViewController: UIViewController, UITableViewDelegate, UIT
     
     func initCellByValue(name : String, value : String) -> LegislatorDetailTableViewCell {
         if (value.characters.count > 0) {
-            let cell = LegislatorDetailTableViewCell.initCellWithValue(name : name, value : value)
-            return cell
+            if (name == "Twitter") {
+                let cell = LegislatorDetailTableViewCell.initCellWithValue(name : name, value : "Twitter Link")
+                return cell
+            } else if (name == "Website") {
+                let cell = LegislatorDetailTableViewCell.initCellWithValue(name : name, value : "Website Link")
+                return cell
+            } else {
+                let cell = LegislatorDetailTableViewCell.initCellWithValue(name : name, value : value)
+                return cell
+            }
+            
         } else {
             let cell = LegislatorDetailTableViewCell.initCellWithValue(name : name, value : "N.A")
             return cell
@@ -92,7 +101,12 @@ class LegislatorDetailViewController: UIViewController, UITableViewDelegate, UIT
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        if (indexPath.row == 7 && self.legislatorDetail.twitter.characters.count > 0) {
+            let url = "https://twitter.com/" + self.legislatorDetail.twitter
+            UIApplication.shared.openURL(URL(string: url)!)
+        } else if (indexPath.row == 8 && self.legislatorDetail.website.characters.count > 0) {
+            UIApplication.shared.openURL(URL(string: self.legislatorDetail.website)!)
+        }
     }
     
 
