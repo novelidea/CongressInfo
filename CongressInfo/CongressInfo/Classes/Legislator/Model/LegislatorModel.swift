@@ -18,6 +18,12 @@ class LegislatorModel: NSObject {
     var state = String()
     var birthday = String()
     var profile = Data()
+    var gender = String()
+    var fax = String()
+    var twitter = String()
+    var website = String()
+    var office = String()
+    var termEndOn = String()
     class func initLegislatorWithDict(data: [String: AnyObject]) -> LegislatorModel {
         let instance = LegislatorModel()
         if let bioguide_id = data["bioguide_id"] as? String {
@@ -52,6 +58,24 @@ class LegislatorModel: NSObject {
         }
         if let birthday = data["birthday"] as? String {
             instance.birthday = birthday
+        }
+        if let gender = data["gender"] as? String {
+            instance.gender = gender
+        }
+        if let fax = data["fax"] as? String {
+            instance.fax = fax
+        }
+        if let twitter = data["twitter_id"] as? String {
+            instance.twitter = twitter
+        }
+        if let website = data["website"] as? String {
+            instance.website = website
+        }
+        if let office = data["office"] as? String {
+            instance.office = office
+        }
+        if let termEndOn = data["term_end"] as? String {
+            instance.termEndOn = termEndOn
         }
         return instance
     }
