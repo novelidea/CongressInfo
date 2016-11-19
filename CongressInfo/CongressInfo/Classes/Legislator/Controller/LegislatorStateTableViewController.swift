@@ -35,6 +35,7 @@ class LegislatorStateTableViewController: UITableViewController {
                 do{
                     let json = try JSONSerialization.jsonObject(with: data!, options:.allowFragments) as! [String:AnyObject]
                     if let results = json["results"] as? [[String: AnyObject]] {
+//                        print(results)
                         for legislator in results {
                             let model = LegislatorModel.initLegislatorWithDict(data: legislator)
                             self.legislators.append(model)

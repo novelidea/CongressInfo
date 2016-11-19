@@ -35,6 +35,8 @@
 		DA3197261DDF9C4B007A846C /* BillModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3197251DDF9C4B007A846C /* BillModel.swift */; };
 		DA3197281DDFA38B007A846C /* BillDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3197271DDFA38B007A846C /* BillDetailViewController.swift */; };
 		DA31972A1DDFA578007A846C /* BillDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3197291DDFA578007A846C /* BillDetailTableViewCell.swift */; };
+		DA31972C1DDFB4A6007A846C /* CommitteeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA31972B1DDFB4A6007A846C /* CommitteeModel.swift */; };
+		DA31972E1DDFB7E7007A846C /* CommitteeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA31972D1DDFB7E7007A846C /* CommitteeDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,6 +71,8 @@
 		DA3197251DDF9C4B007A846C /* BillModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillModel.swift; sourceTree = "<group>"; };
 		DA3197271DDFA38B007A846C /* BillDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillDetailViewController.swift; sourceTree = "<group>"; };
 		DA3197291DDFA578007A846C /* BillDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillDetailTableViewCell.swift; sourceTree = "<group>"; };
+		DA31972B1DDFB4A6007A846C /* CommitteeModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommitteeModel.swift; sourceTree = "<group>"; };
+		DA31972D1DDFB7E7007A846C /* CommitteeDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommitteeDetailViewController.swift; sourceTree = "<group>"; };
 		E1F22ED42A4E6E92BB138A49 /* Pods-CongressInfo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CongressInfo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CongressInfo/Pods-CongressInfo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -190,6 +194,7 @@
 				DA3196FF1DDE7649007A846C /* CommitteeHouseTableViewController.swift */,
 				DA3197091DDE8078007A846C /* CommitteeSenateTableViewController.swift */,
 				DA31970B1DDE8086007A846C /* CommitteeJointTableViewController.swift */,
+				DA31972D1DDFB7E7007A846C /* CommitteeDetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -197,6 +202,7 @@
 		DA3196D71DDD3C7B007A846C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DA31972B1DDFB4A6007A846C /* CommitteeModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -549,6 +555,7 @@
 				DA3197201DDEC0C0007A846C /* LegislatorModel.swift in Sources */,
 				DA3197161DDE834B007A846C /* FavoriteCommitteeTableViewController.swift in Sources */,
 				DA3197001DDE7649007A846C /* CommitteeHouseTableViewController.swift in Sources */,
+				DA31972E1DDFB7E7007A846C /* CommitteeDetailViewController.swift in Sources */,
 				DA3197061DDE8020007A846C /* LegislatorSenateTableViewController.swift in Sources */,
 				DA3196EC1DDD45A0007A846C /* MainTabBarController.swift in Sources */,
 				DA31972A1DDFA578007A846C /* BillDetailTableViewCell.swift in Sources */,
@@ -566,6 +573,7 @@
 				DA31971E1DDEB09F007A846C /* Constants.swift in Sources */,
 				DA3197241DDF792F007A846C /* LegislatorDetailTableViewCell.swift in Sources */,
 				DA3197221DDEFB34007A846C /* LegislatorDetailViewController.swift in Sources */,
+				DA31972C1DDFB4A6007A846C /* CommitteeModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
