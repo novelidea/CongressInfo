@@ -50,13 +50,26 @@ class MenuView: UIView {
     func addMenuTitle(frame: CGRect) -> Void {
         let titleView = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height:frame.height * leftMenuTitleRatio))
         titleView.backgroundColor = UIColor(colorLiteralRed: 214/255, green: 214/255, blue: 214/255, alpha: 1)
+        
+        let logo = UIImage(named: "logo")
+        
+        let logoView = UIImageView(image: logo)
+        logoView.frame = CGRect(x: 10, y: 20, width: titleView.frame.width - 20, height: titleView.frame.height * 0.5)
+        titleView.addSubview(logoView)
+        
+        let apiLabel = UILabel()
+        apiLabel.text = "Congress API"
+        apiLabel.font = UIFont(name: apiLabel.font.fontName, size: 30)
+        apiLabel.frame = CGRect(x: 10, y: logoView.frame.height + 30, width: titleView.frame.width - 20, height: titleView.frame.height * 0.3)
+        titleView.addSubview(apiLabel)
+        
         leftView.addSubview(titleView)
     }
     func addMenuList(frame: CGRect) -> Void {
 //        var menuTableView = UITableView()
         let menuList : [String] = ["   Legislators", "   Bills", "   Committee", "   Favorite", "   About"]
         for index in 0...4 {
-            print(index)
+//            print(index)
             addMenuItem(name: menuList[index], index: CGFloat(index), frame: frame)
         }
     }
