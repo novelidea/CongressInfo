@@ -14,7 +14,20 @@ class AboutViewController: UIViewController {
         super.viewDidLoad()
         navigationController?.navigationBar.topItem?.title = "About"
         self.tabBarController?.tabBar.isHidden = true
+        addChildView()
         // Do any additional setup after loading the view.
+    }
+    
+    func addChildView() -> Void {
+        let profile = UIImage(named: "profile");
+        let profileView = UIImageView(image: profile);
+        profileView.frame = CGRect(x: 40, y: 90, width: screenWidth - 2 * 40, height: screenHeight * 0.4)
+        self.view.addSubview(profileView)
+        
+        let infoLabel = UILabel(frame: CGRect(x: 30, y: screenHeight * 0.55, width: screenWidth - 2 * 30, height: 40))
+        infoLabel.text = "1847824832"
+        infoLabel.textAlignment = .center
+        self.view.addSubview(infoLabel)
     }
 
     override func didReceiveMemoryWarning() {
