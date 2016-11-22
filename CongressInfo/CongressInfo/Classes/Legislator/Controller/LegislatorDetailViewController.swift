@@ -13,6 +13,8 @@ class LegislatorDetailViewController: UIViewController, UITableViewDelegate, UIT
     var legislatorDetail = LegislatorModel()
     let detailTable = UITableView(frame: CGRect(x: 10, y: screenHeight * 0.4, width: screenWidth - 20, height: screenHeight * 0.6))
 
+    var likeButton = UIBarButtonItem()
+    var isFavourited = false
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
@@ -22,6 +24,41 @@ class LegislatorDetailViewController: UIViewController, UITableViewDelegate, UIT
         self.view.addSubview(self.detailTable)
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"Back", style:.plain, target:nil, action:nil)
         
+        updateRighBarButton(isFavourite: self.isFavourited)
+    }
+    
+    func updateRighBarButton(isFavourite : Bool){
+        let btnFavourite = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+        btnFavourite.addTarget(self, action: #selector(LegislatorDetailViewController.btnFavouriteDidClicked), for: .touchUpInside)
+        if isFavourite {
+            btnFavourite.setImage(UIImage(named: "liked"), for: .normal)
+        }else{
+            btnFavourite.setImage(UIImage(named: "unliked"), for: .normal)
+        }
+        let rightButton = UIBarButtonItem(customView: btnFavourite)
+        self.navigationItem.setRightBarButtonItems([rightButton], animated: true)
+    }
+    
+    func btnFavouriteDidClicked()
+    {
+        //do your stuff
+        self.isFavourited = !self.isFavourited;
+        if self.isFavourited {
+            self.favourite();
+        }else{
+            self.unfavourite();
+        }
+        self.updateRighBarButton(isFavourite: self.isFavourited);
+    }
+    
+    
+    func favourite()
+    {
+        print("favourite")
+    }
+    
+    func unfavourite(){
+        print("unfavourite")
     }
 
     override func didReceiveMemoryWarning() {
