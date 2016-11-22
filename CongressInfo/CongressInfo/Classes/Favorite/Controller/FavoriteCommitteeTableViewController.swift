@@ -10,16 +10,29 @@ import UIKit
 
 class FavoriteCommitteeTableViewController: UITableViewController {
 
+    
+    var delegate : FavouriteDataChangeProtocol!
+    
+    var committees : [CommitteeModel] = []
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.topItem?.title = "Favorite"
         self.tabBarController?.tabBar.isHidden = false
+        
+        self.committees = self.delegate.getFavouriteCommittees()
+//        self.tableView.rowHeight = 120
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.committees = self.delegate.getFavouriteCommittees()
+        self.tableView.reloadData()
+    }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -30,12 +43,27 @@ class FavoriteCommitteeTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return self.committees.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let model = self.committees[indexPath.row]
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "CommitteeHouseTableCell")
+        cell.textLabel?.text = model.committee_name
+        cell.detailTextLabel?.text = model.committee_id
+        return cell
+    }
+    //
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailVC = CommitteeDetailViewController()
+        detailVC.committeeDetail = self.committees[indexPath.row]
+        detailVC.delegate = self.delegate
+        self.navigationController?.pushViewController(detailVC, animated: true)
     }
 
     /*

@@ -20,9 +20,45 @@ protocol FavouriteDataChangeProtocol {
     func unlikeBill(bill : BillModel)
     func isLikedBill(bill_id : String) -> Bool
     func getFavouriteBills() -> [BillModel]
+    
+    // commit delegate
+    func likeCommittee(committee : CommitteeModel)
+    func unlikeCommittee(committee : CommitteeModel)
+    func isLikedCommittee(committee_id : String) -> Bool
+    func getFavouriteCommittees() -> [CommitteeModel]
 }
 
 class MainTabBarController: UITabBarController, MenuItemDelegate, UITabBarControllerDelegate, FavouriteDataChangeProtocol {
+    // committee delegate
+    internal func getFavouriteCommittees() -> [CommitteeModel] {
+        return self.committeeFavourites
+    }
+
+    internal func isLikedCommittee(committee_id: String) -> Bool {
+        if (self.committeeFavourites.count == 0) {
+            return false
+        }
+        for index in (0 ... self.committeeFavourites.count - 1) {
+            if (self.committeeFavourites[index].committee_id == committee_id) {
+                return true
+            }
+        }
+        return false
+    }
+
+    internal func unlikeCommittee(committee: CommitteeModel) {
+        for index in (0 ... self.committeeFavourites.count - 1) {
+            if (self.committeeFavourites[index].committee_id == committee.committee_id) {
+                self.committeeFavourites.remove(at: index)
+                break
+            }
+        }
+    }
+
+    internal func likeCommittee(committee: CommitteeModel) {
+        self.committeeFavourites.append(committee)
+    }
+
     // bill delegate
     internal func getFavouriteBills() -> [BillModel] {
         return self.billFavourites
@@ -98,18 +134,10 @@ class MainTabBarController: UITabBarController, MenuItemDelegate, UITabBarContro
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
-//
         self.navigationController?.navigationBar.barStyle = UIBarStyle.blackTranslucent
-        
         self.navigationController?.navigationBar.barTintColor=UIColor.white
-//        print(navigationItem)
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(test))
-//        self.navigationController?.navigationBar.backgroundColor = UIColor.blue
         loadLegislators()
-//        loadBills()
-//        navigationItem.title = "Legislator"
-//        navigationController?.navigationBar.topItem?.title = "Legislator"
-
     }
     
     func loadLegislators() -> Void {
@@ -139,8 +167,11 @@ class MainTabBarController: UITabBarController, MenuItemDelegate, UITabBarContro
     
     func loadCommittee() -> Void {
         let houseVC = CommitteeHouseTableViewController()
+        houseVC.delegate = self
         let senateVC = CommitteeSenateTableViewController()
+        senateVC.delegate = self
         let jointVC = CommitteeJointTableViewController()
+        jointVC.delegate = self
         houseVC.title = "House"
         senateVC.title = "Senate"
         jointVC.title = "Joint"
@@ -154,6 +185,7 @@ class MainTabBarController: UITabBarController, MenuItemDelegate, UITabBarContro
         let billVC = FavoriteBillTableViewController()
         billVC.delegate = self
         let committeeVC = FavoriteCommitteeTableViewController()
+        committeeVC.delegate = self
         legislatorVC.title = "Legislators"
         billVC.title = "Bills"
         committeeVC.title = "Committees"
@@ -166,13 +198,6 @@ class MainTabBarController: UITabBarController, MenuItemDelegate, UITabBarContro
         let controllers = [aboutVC]
         self.viewControllers = controllers
     }
-    
-//    override func viewWillAppear(_ animated: Bool) {
-////        navigationItem.title = categoryName
-//        print(categoryName)
-//
-//
-//    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

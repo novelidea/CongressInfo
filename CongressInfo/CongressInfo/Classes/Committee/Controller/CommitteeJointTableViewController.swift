@@ -11,6 +11,7 @@ import UIKit
 class CommitteeJointTableViewController: UITableViewController {
 
     var committees : [CommitteeModel] = []
+    var delegate : FavouriteDataChangeProtocol!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
@@ -36,7 +37,7 @@ class CommitteeJointTableViewController: UITableViewController {
                     let json = try JSONSerialization.jsonObject(with: data!, options:.allowFragments) as! [String:AnyObject]
                     //                    print(json)
                     if let results = json["results"] as? [[String: AnyObject]] {
-                        print(results)
+//                        print(results)
                         for committee in results {
                             let model = CommitteeModel.initCommitteeWithDict(data: committee)
                             self.committees.append(model)
@@ -80,6 +81,7 @@ class CommitteeJointTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailVC = CommitteeDetailViewController()
         detailVC.committeeDetail = self.committees[indexPath.row]
+        detailVC.delegate = self.delegate
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
     

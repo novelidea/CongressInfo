@@ -11,6 +11,7 @@ import UIKit
 class CommitteeHouseTableViewController: UITableViewController {
 
     var committees : [CommitteeModel] = []
+    var delegate : FavouriteDataChangeProtocol!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
@@ -80,6 +81,7 @@ class CommitteeHouseTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailVC = CommitteeDetailViewController()
         detailVC.committeeDetail = self.committees[indexPath.row]
+        detailVC.delegate = self.delegate
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
 
