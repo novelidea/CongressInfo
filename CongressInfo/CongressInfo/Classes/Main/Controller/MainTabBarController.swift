@@ -9,13 +9,51 @@
 import UIKit
 
 protocol FavouriteDataChangeProtocol {
+    // legislator delegate
     func likeLegislator(legislator : LegislatorModel)
     func unlikeLegislator(legislator : LegislatorModel)
     func isLiked(bioguide_id : String) -> Bool
     func getFavouriteLegislators() -> [LegislatorModel]
+    
+    // bill delegate
+    func likeBill(bill : BillModel)
+    func unlikeBill(bill : BillModel)
+    func isLikedBill(bill_id : String) -> Bool
+    func getFavouriteBills() -> [BillModel]
 }
 
 class MainTabBarController: UITabBarController, MenuItemDelegate, UITabBarControllerDelegate, FavouriteDataChangeProtocol {
+    // bill delegate
+    internal func getFavouriteBills() -> [BillModel] {
+        return self.billFavourites
+    }
+
+    internal func isLikedBill(bill_id: String) -> Bool {
+        if (self.billFavourites.count == 0) {
+            return false
+        }
+        for index in (0 ... self.billFavourites.count - 1) {
+            if (self.billFavourites[index].bill_id == bill_id) {
+                return true
+            }
+        }
+        return false
+    }
+
+    internal func unlikeBill(bill: BillModel) {
+        for index in (0 ... self.billFavourites.count - 1) {
+            if (self.billFavourites[index].bill_id == bill.bill_id) {
+                self.billFavourites.remove(at: index)
+                break
+            }
+        }
+    }
+
+    internal func likeBill(bill: BillModel) {
+        self.billFavourites.append(bill)
+    }
+    
+    // legislator delegate
     internal func getFavouriteLegislators() -> [LegislatorModel] {
         return self.legislatorFavourites
     }
@@ -78,7 +116,9 @@ class MainTabBarController: UITabBarController, MenuItemDelegate, UITabBarContro
         let stateVC = LegislatorStateTableViewController()
         stateVC.delegate = self
         let houseVC = LegislatorHouseTableViewController()
+        houseVC.delegate = self
         let senateVC = LegislatorSenateTableViewController()
+        senateVC.delegate = self
         stateVC.title = "State"
         houseVC.title = "House"
         senateVC.title = "Senate"
@@ -88,7 +128,9 @@ class MainTabBarController: UITabBarController, MenuItemDelegate, UITabBarContro
     
     func loadBills() -> Void {
         let activeVC = BillActiveTableViewController()
+        activeVC.delegate = self
         let newVC = BillNewTableViewController()
+        newVC.delegate = self
         activeVC.title = "Active"
         newVC.title = "New"
         let controllers = [activeVC, newVC]
@@ -110,6 +152,7 @@ class MainTabBarController: UITabBarController, MenuItemDelegate, UITabBarContro
         let legislatorVC = FavoriteLegislatorTableViewController()
         legislatorVC.delegate = self
         let billVC = FavoriteBillTableViewController()
+        billVC.delegate = self
         let committeeVC = FavoriteCommitteeTableViewController()
         legislatorVC.title = "Legislators"
         billVC.title = "Bills"

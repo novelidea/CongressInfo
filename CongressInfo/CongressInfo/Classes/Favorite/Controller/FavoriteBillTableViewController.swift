@@ -10,15 +10,25 @@ import UIKit
 
 class FavoriteBillTableViewController: UITableViewController {
 
+    var delegate : FavouriteDataChangeProtocol!
+    
+    var bills : [BillModel] = []
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.topItem?.title = "Favorite"
         self.tabBarController?.tabBar.isHidden = false
+        self.bills = self.delegate.getFavouriteBills()
+        self.tableView.rowHeight = 120
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.bills = self.delegate.getFavouriteBills()
+        self.tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,13 +40,32 @@ class FavoriteBillTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return self.bills.count
     }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        //        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let model = self.bills[indexPath.row]
+        let cell = UITableViewCell()
+        cell.textLabel?.text = model.title
+        cell.textLabel?.numberOfLines = 4
+        cell.textLabel?.sizeToFit()
+        
+        return cell
+    }
+    //
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailVC = BillDetailViewController()
+        detailVC.billDetail = self.bills[indexPath.row]
+        detailVC.delegate = self.delegate
+        self.navigationController?.pushViewController(detailVC, animated: true)
+    }
+
 
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

@@ -11,6 +11,7 @@ import UIKit
 class BillActiveTableViewController: UITableViewController {
     
     var bills : [BillModel] = []
+    var delegate : FavouriteDataChangeProtocol!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
@@ -82,6 +83,7 @@ class BillActiveTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailVC = BillDetailViewController()
         detailVC.billDetail = self.bills[indexPath.row]
+        detailVC.delegate = self.delegate
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
 

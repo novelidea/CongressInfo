@@ -11,6 +11,7 @@ import UIKit
 class LegislatorSenateTableViewController: UITableViewController {
 
     var legislators : [LegislatorModel] = []
+    var delegate : FavouriteDataChangeProtocol!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
@@ -95,6 +96,7 @@ class LegislatorSenateTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailVC = LegislatorDetailViewController()
         detailVC.legislatorDetail = self.legislators[indexPath.row]
+        detailVC.delegate = self.delegate
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
 }
