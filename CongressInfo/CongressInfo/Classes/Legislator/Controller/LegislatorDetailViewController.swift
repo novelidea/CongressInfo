@@ -8,6 +8,9 @@
 
 import UIKit
 
+
+
+
 class LegislatorDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var legislatorDetail = LegislatorModel()
@@ -15,6 +18,8 @@ class LegislatorDetailViewController: UIViewController, UITableViewDelegate, UIT
 
     var likeButton = UIBarButtonItem()
     var isFavourited = false
+    
+    var delegate : FavouriteDataChangeProtocol!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
@@ -24,6 +29,7 @@ class LegislatorDetailViewController: UIViewController, UITableViewDelegate, UIT
         self.view.addSubview(self.detailTable)
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"Back", style:.plain, target:nil, action:nil)
         
+        self.isFavourited = self.delegate.isLiked(bioguide_id: self.legislatorDetail.bioguide_id)
         updateRighBarButton(isFavourite: self.isFavourited)
     }
     
@@ -54,11 +60,13 @@ class LegislatorDetailViewController: UIViewController, UITableViewDelegate, UIT
     
     func favourite()
     {
-        print("favourite")
+//        print("favourite")
+        self.delegate.likeLegislator(legislator: self.legislatorDetail)
     }
     
     func unfavourite(){
-        print("unfavourite")
+//        print("unfavourite")
+        self.delegate.unlikeLegislator(legislator: self.legislatorDetail)
     }
 
     override func didReceiveMemoryWarning() {

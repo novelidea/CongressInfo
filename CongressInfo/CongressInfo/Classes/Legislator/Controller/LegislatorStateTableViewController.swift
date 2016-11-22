@@ -9,12 +9,14 @@
 import UIKit
 import Alamofire
 
-class LegislatorStateTableViewController: UITableViewController, UISearchBarDelegate {
+class LegislatorStateTableViewController: UITableViewController, UISearchBarDelegate{
 
     var legislators : [LegislatorModel] = []
     
 //    lazy   var searchBar:UISearchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: 200, height: 20))
 //    lazy var searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: 200, height: 20))
+    
+    var delegate : FavouriteDataChangeProtocol!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
@@ -112,7 +114,9 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailVC = LegislatorDetailViewController()
         detailVC.legislatorDetail = self.legislators[indexPath.row]
+        detailVC.delegate = self.delegate
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
+    
 
 }

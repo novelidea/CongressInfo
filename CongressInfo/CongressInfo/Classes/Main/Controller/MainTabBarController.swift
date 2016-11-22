@@ -8,12 +8,55 @@
 
 import UIKit
 
-class MainTabBarController: UITabBarController, MenuItemDelegate, UITabBarControllerDelegate {
+protocol FavouriteDataChangeProtocol {
+    func likeLegislator(legislator : LegislatorModel)
+    func unlikeLegislator(legislator : LegislatorModel)
+    func isLiked(bioguide_id : String) -> Bool
+    func getFavouriteLegislators() -> [LegislatorModel]
+}
+
+class MainTabBarController: UITabBarController, MenuItemDelegate, UITabBarControllerDelegate, FavouriteDataChangeProtocol {
+    internal func getFavouriteLegislators() -> [LegislatorModel] {
+        return self.legislatorFavourites
+    }
+
+    internal func isLiked(bioguide_id: String) -> Bool {
+        if (self.legislatorFavourites.count == 0) {
+            return false
+        }
+        for index in (0 ... self.legislatorFavourites.count - 1) {
+            if (self.legislatorFavourites[index].bioguide_id == bioguide_id) {
+                    return true
+            }
+        }
+        return false
+    }
+
+    internal func unlikeLegislator(legislator: LegislatorModel) {
+        for index in (0 ... self.legislatorFavourites.count - 1) {
+            if (self.legislatorFavourites[index].bioguide_id == legislator.bioguide_id) {
+                self.legislatorFavourites.remove(at: index)
+                break
+            }
+        }
+//        print("success unlike")
+//        print(self.legislatorFavourites.count)
+    }
+
+    internal func likeLegislator(legislator: LegislatorModel) {
+        self.legislatorFavourites.append(legislator)
+//        print("success like")
+//        print(self.legislatorFavourites.count)
+    }
+
     
     var openMenu = false
     let screenSize: CGRect = UIScreen.main.bounds
     let menuPopup = MenuView()
     var categoryName = String()
+    var legislatorFavourites : [LegislatorModel] = []
+    var billFavourites : [BillModel] = []
+    var committeeFavourites : [CommitteeModel] = []
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
@@ -33,6 +76,7 @@ class MainTabBarController: UITabBarController, MenuItemDelegate, UITabBarContro
     
     func loadLegislators() -> Void {
         let stateVC = LegislatorStateTableViewController()
+        stateVC.delegate = self
         let houseVC = LegislatorHouseTableViewController()
         let senateVC = LegislatorSenateTableViewController()
         stateVC.title = "State"
@@ -64,6 +108,7 @@ class MainTabBarController: UITabBarController, MenuItemDelegate, UITabBarContro
     
     func loadFavorite() -> Void {
         let legislatorVC = FavoriteLegislatorTableViewController()
+        legislatorVC.delegate = self
         let billVC = FavoriteBillTableViewController()
         let committeeVC = FavoriteCommitteeTableViewController()
         legislatorVC.title = "Legislators"
@@ -127,5 +172,9 @@ class MainTabBarController: UITabBarController, MenuItemDelegate, UITabBarContro
         print(viewController)
         return true
     }
+    
+    
+    // FavouriteDataChangeProtocol
+    
 
 }

@@ -8,17 +8,26 @@
 
 import UIKit
 
-class FavoriteLegislatorTableViewController: UITableViewController {
+class FavoriteLegislatorTableViewController: UITableViewController{
 
+    var delegate : FavouriteDataChangeProtocol!
+    
+    var legislators : [LegislatorModel] = []
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.topItem?.title = "Favorite"
         self.tabBarController?.tabBar.isHidden = false
+        self.legislators = self.delegate.getFavouriteLegislators()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.legislators = self.delegate.getFavouriteLegislators()
+        self.tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,23 +39,42 @@ class FavoriteLegislatorTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return self.legislators.count
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let model = self.legislators[indexPath.row]
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "legislatorsState")
+        cell.textLabel?.text = model.name
+        cell.detailTextLabel?.text = model.state
+        
+        let url = URL(string: legislatorThumbailURLStrBase + model.bioguide_id + ".jpg")
+        
+        DispatchQueue.global().async {
+            if let data = try? Data(contentsOf: url!) {
+                DispatchQueue.main.async {
+                    cell.imageView?.image = UIImage(data: data)
+                    model.profile = data
+                }
+            }
+            
+        }
         return cell
     }
-    */
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailVC = LegislatorDetailViewController()
+        detailVC.legislatorDetail = self.legislators[indexPath.row]
+        detailVC.delegate = self.delegate
+        self.navigationController?.pushViewController(detailVC, animated: true)
+    }
+    
 
     /*
     // Override to support conditional editing of the table view.
