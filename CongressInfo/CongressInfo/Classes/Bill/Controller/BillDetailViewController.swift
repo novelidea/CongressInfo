@@ -16,6 +16,7 @@ class BillDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
+        self.tabBarController?.tabBar.isHidden = false
         addChildView()
         detailTable.delegate = self
         detailTable.dataSource = self

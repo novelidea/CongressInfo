@@ -13,6 +13,7 @@ class FavoriteLegislatorTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.topItem?.title = "Favorite"
+        self.tabBarController?.tabBar.isHidden = false
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 

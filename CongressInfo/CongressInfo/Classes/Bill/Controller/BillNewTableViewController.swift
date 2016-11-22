@@ -14,7 +14,7 @@ class BillNewTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
-        
+        self.tabBarController?.tabBar.isHidden = false
         navigationController?.navigationBar.topItem?.title = "Bill"
         self.tableView.rowHeight = 120
         downloadData()

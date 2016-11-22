@@ -9,16 +9,31 @@
 import UIKit
 import Alamofire
 
-class LegislatorStateTableViewController: UITableViewController {
+class LegislatorStateTableViewController: UITableViewController, UISearchBarDelegate {
 
     var legislators : [LegislatorModel] = []
+    
+//    lazy   var searchBar:UISearchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: 200, height: 20))
+//    lazy var searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: 200, height: 20))
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
-        
+        self.tabBarController?.tabBar.isHidden = false
         navigationController?.navigationBar.topItem?.title = "Legislator"
         downloadData()
+        
+//        createSearch()
     }
+    
+    func createSearch() -> Void {
+        let searchBar = UISearchBar()
+        searchBar.showsCancelButton = false
+        searchBar.placeholder = "search"
+        searchBar.delegate = self
+        
+        self.navigationItem.titleView = searchBar
+    }
+
     
     func downloadData() -> Void {
         let requestURL: NSURL = NSURL(string: baseURLStr + "f=legislatorshouse")!
