@@ -59,7 +59,7 @@ class BillNewTableViewController: UITableViewController, UISearchBarDelegate {
     }
     func removeSearch() -> Void {
         self.parent?.navigationItem.titleView = nil
-        self.parent?.navigationItem.title = "Legislator"
+        self.parent?.navigationItem.title = "Bill"
     }
     
     func createSearch() -> Void {
