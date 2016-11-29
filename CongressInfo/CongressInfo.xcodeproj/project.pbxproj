@@ -37,6 +37,7 @@
 		DA31972A1DDFA578007A846C /* BillDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3197291DDFA578007A846C /* BillDetailTableViewCell.swift */; };
 		DA31972C1DDFB4A6007A846C /* CommitteeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA31972B1DDFB4A6007A846C /* CommitteeModel.swift */; };
 		DA31972E1DDFB7E7007A846C /* CommitteeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA31972D1DDFB7E7007A846C /* CommitteeDetailViewController.swift */; };
+		DA6D98931DEE36210021E4D8 /* BillTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6D98921DEE36210021E4D8 /* BillTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,6 +74,7 @@
 		DA3197291DDFA578007A846C /* BillDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillDetailTableViewCell.swift; sourceTree = "<group>"; };
 		DA31972B1DDFB4A6007A846C /* CommitteeModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommitteeModel.swift; sourceTree = "<group>"; };
 		DA31972D1DDFB7E7007A846C /* CommitteeDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommitteeDetailViewController.swift; sourceTree = "<group>"; };
+		DA6D98921DEE36210021E4D8 /* BillTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillTableViewCell.swift; sourceTree = "<group>"; };
 		E1F22ED42A4E6E92BB138A49 /* Pods-CongressInfo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CongressInfo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CongressInfo/Pods-CongressInfo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -174,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				DA3197291DDFA578007A846C /* BillDetailTableViewCell.swift */,
+				DA6D98921DEE36210021E4D8 /* BillTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -561,6 +564,7 @@
 				DA31972A1DDFA578007A846C /* BillDetailTableViewCell.swift in Sources */,
 				DA3196FE1DDE7606007A846C /* BillActiveTableViewController.swift in Sources */,
 				DA3196F81DDD7551007A846C /* MenuView.swift in Sources */,
+				DA6D98931DEE36210021E4D8 /* BillTableViewCell.swift in Sources */,
 				DA31971C1DDE8455007A846C /* AboutViewController.swift in Sources */,
 				DA3196F41DDD6A76007A846C /* MenuViewController.swift in Sources */,
 				DA3197261DDF9C4B007A846C /* BillModel.swift in Sources */,

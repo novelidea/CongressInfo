@@ -18,6 +18,7 @@ class BillModel: NSObject {
     var chamber = String()
     var last_vote = String()
     var status = String()
+    var introduced_on = String()
     class func initBillWithDict(data: [String: AnyObject]) -> BillModel {
         let instance = BillModel()
         if let title = data["official_title"] as? String {
@@ -66,6 +67,15 @@ class BillModel: NSObject {
 //                print(active)
                 instance.status = (active == true ? "Active" : "New")
             }
+        }
+        if let introduced_on = data["introduced_on"] as? String {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "YYYY-MM-DD"
+            let origin = dateFormatter.date(from: introduced_on)
+            
+            dateFormatter.dateStyle = DateFormatter.Style.medium
+            let convertedDate = dateFormatter.string(from: origin! as Date)
+            instance.introduced_on = convertedDate
         }
         return instance
     }

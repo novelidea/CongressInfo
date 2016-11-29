@@ -17,7 +17,7 @@ class BillActiveTableViewController: UITableViewController {
         self.view.backgroundColor = UIColor.white
         self.tabBarController?.tabBar.isHidden = false
         navigationController?.navigationBar.topItem?.title = "Bill"
-        self.tableView.rowHeight = 120
+        self.tableView.rowHeight = 130
         downloadData()
     }
     
@@ -70,16 +70,21 @@ class BillActiveTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
         let model = self.bills[indexPath.row]
-        let cell = UITableViewCell()
-        cell.textLabel?.text = model.title
-        cell.textLabel?.numberOfLines = 4
-        cell.textLabel?.sizeToFit()
+        let cell = BillTableViewCell.initCellWithValue(bill_id: model.bill_id, bill_title: model.title, introduced_on: model.introduced_on)
+        
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "YYYY-MM-DD"
+//        let origin = dateFormatter.date(from: model.introduced_on)
+//        
+//        dateFormatter.dateStyle = DateFormatter.Style.medium
+//        let convertedDate = dateFormatter.string(from: origin! as Date)
+//        
+//        print(convertedDate)
         
         return cell
     }
-//
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailVC = BillDetailViewController()
         detailVC.billDetail = self.bills[indexPath.row]

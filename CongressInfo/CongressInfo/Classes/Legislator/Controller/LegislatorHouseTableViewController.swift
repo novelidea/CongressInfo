@@ -32,10 +32,7 @@ class LegislatorHouseTableViewController: UITableViewController, UISearchBarDele
     }
     
     func updateRighBarButton(){
-        
         searchBtn.addTarget(self, action: #selector(LegislatorStateTableViewController.filterClicked), for: .touchUpInside)
-        
-        
         searchBtn.setImage(UIImage(named: "search"), for: .normal)
         
         let rightButton = UIBarButtonItem(customView: searchBtn)
@@ -46,19 +43,14 @@ class LegislatorHouseTableViewController: UITableViewController, UISearchBarDele
         if (didClickSearch == false) {
             didClickSearch = true
             createSearch()
-            
-            
             searchBtn.setImage(UIImage(named: "cancel"), for: .normal)
-            
             let rightButton = UIBarButtonItem(customView: searchBtn)
             self.parent?.navigationItem.setRightBarButtonItems([rightButton], animated: true)
             
         } else {
             didClickSearch = false
             removeSearch()
-            
             searchBtn.setImage(UIImage(named: "search"), for: .normal)
-            
             let rightButton = UIBarButtonItem(customView: searchBtn)
             self.parent?.navigationItem.setRightBarButtonItems([rightButton], animated: true)
         }
@@ -70,7 +62,6 @@ class LegislatorHouseTableViewController: UITableViewController, UISearchBarDele
     }
     
     func createSearch() -> Void {
-//        self.parent?.view.addSubview(self.searchBar)
         searchBar.showsCancelButton = false
         searchBar.placeholder = "search"
         searchBar.delegate = self

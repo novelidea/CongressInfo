@@ -17,7 +17,7 @@ class BillNewTableViewController: UITableViewController {
         self.view.backgroundColor = UIColor.white
         self.tabBarController?.tabBar.isHidden = false
         navigationController?.navigationBar.topItem?.title = "Bill"
-        self.tableView.rowHeight = 120
+        self.tableView.rowHeight = 130
         downloadData()
     }
     
@@ -74,28 +74,8 @@ class BillNewTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
         let model = self.bills[indexPath.row]
-        let cell = UITableViewCell()
-        cell.textLabel?.text = model.title
-        cell.textLabel?.numberOfLines = 4
-        cell.textLabel?.sizeToFit()
-        
-        //        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "legislatorsState")
-        //        cell.textLabel?.text = model.name
-        //        cell.detailTextLabel?.text = model.state
-        //
-        //        let url = URL(string: legislatorThumbailURLStrBase + model.bioguide_id + ".jpg")
-        //
-        //        DispatchQueue.global().async {
-        //            if let data = try? Data(contentsOf: url!) {
-        //                DispatchQueue.main.async {
-        //                    cell.imageView?.image = UIImage(data: data)
-        //                    model.profile = data
-        //                }
-        //            }
-        //
-        //        }
+        let cell = BillTableViewCell.initCellWithValue(bill_id: model.bill_id, bill_title: model.title, introduced_on: model.introduced_on)
         return cell
     }
     //
