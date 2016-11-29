@@ -8,10 +8,16 @@
 
 import UIKit
 
-class BillActiveTableViewController: UITableViewController {
+class BillActiveTableViewController: UITableViewController, UISearchBarDelegate {
     
     var bills : [BillModel] = []
     var delegate : FavouriteDataChangeProtocol!
+    
+    var bills_backup : [BillModel] = []
+
+    var didClickSearch = false
+    let searchBar = UISearchBar()
+    let searchBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
@@ -19,7 +25,68 @@ class BillActiveTableViewController: UITableViewController {
         navigationController?.navigationBar.topItem?.title = "Bill"
         self.tableView.rowHeight = 130
         downloadData()
+        updateRighBarButton()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        updateRighBarButton()
+    }
+    
+    func updateRighBarButton(){
+        searchBtn.addTarget(self, action: #selector(BillActiveTableViewController.filterClicked), for: .touchUpInside)
+        searchBtn.setImage(UIImage(named: "search"), for: .normal)
+        
+        let rightButton = UIBarButtonItem(customView: searchBtn)
+        self.parent?.navigationItem.setRightBarButtonItems([rightButton], animated: true)
+    }
+    
+    func filterClicked() -> Void {
+        if (didClickSearch == false) {
+            didClickSearch = true
+            createSearch()
+            searchBtn.setImage(UIImage(named: "cancel"), for: .normal)
+            let rightButton = UIBarButtonItem(customView: searchBtn)
+            self.parent?.navigationItem.setRightBarButtonItems([rightButton], animated: true)
+            
+        } else {
+            didClickSearch = false
+            removeSearch()
+            searchBtn.setImage(UIImage(named: "search"), for: .normal)
+            let rightButton = UIBarButtonItem(customView: searchBtn)
+            self.parent?.navigationItem.setRightBarButtonItems([rightButton], animated: true)
+        }
+        
+    }
+    func removeSearch() -> Void {
+        self.parent?.navigationItem.titleView = nil
+        self.parent?.navigationItem.title = "Legislator"
+    }
+    
+    func createSearch() -> Void {
+        searchBar.showsCancelButton = false
+        searchBar.placeholder = "search"
+        searchBar.delegate = self
+        
+        self.parent?.navigationItem.titleView = searchBar
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        //        print(searchText)
+        if (searchText.characters.count == 0) {
+            self.bills = self.bills_backup
+        } else {
+            var tmp : [BillModel] = []
+            for index in 1 ... self.bills_backup.count - 1 {
+                let model = self.bills_backup[index]
+                if (model.title.lowercased().contains(searchText.lowercased())) {
+                    tmp.append(model)
+                }
+            }
+            self.bills = tmp
+        }
+        self.tableView.reloadData()
+    }
+
     
     func downloadData() -> Void {
         let requestURL: NSURL = NSURL(string: baseURLStr + "f=billsactive")!
@@ -40,6 +107,7 @@ class BillActiveTableViewController: UITableViewController {
                         for bill in results {
                             let model = BillModel.initBillWithDict(data: bill)
                             self.bills.append(model)
+                            self.bills_backup.append(model)
                         }
                     }
                     
@@ -47,6 +115,16 @@ class BillActiveTableViewController: UITableViewController {
                     print("Error with Json: \(error)")
                 }
             }
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "YYYY-MM-DD"
+//            let origin = dateFormatter.date(from: introduced_on)
+            print(self.bills[0].introduced_on)
+//            self.bills.sort(by: {dateFormatter.date(from:$0.introduced_on)?.timeIntervalSince1970 < dateFormatter.date(from:$1.introduced_on).timeIntervalSince1970})
+            
+            self.bills.sort { dateFormatter.date(from:$0.introduced_on)?.compare(dateFormatter.date(from:($1.introduced_on))!) == .orderedDescending }
+            
+//            self.bills.sort { $0.introduced_on.compare($1.introduced_on) == .orderedDescending }
+            print(self.bills[0].introduced_on)
             self.tableView.reloadData()
         }
         

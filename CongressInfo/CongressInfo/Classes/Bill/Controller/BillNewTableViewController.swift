@@ -8,10 +8,17 @@
 
 import UIKit
 
-class BillNewTableViewController: UITableViewController {
+class BillNewTableViewController: UITableViewController, UISearchBarDelegate {
 
     var bills : [BillModel] = []
     var delegate : FavouriteDataChangeProtocol!
+    
+    var bills_backup : [BillModel] = []
+    
+    var didClickSearch = false
+    let searchBar = UISearchBar()
+    let searchBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
@@ -20,6 +27,66 @@ class BillNewTableViewController: UITableViewController {
         self.tableView.rowHeight = 130
         downloadData()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        updateRighBarButton()
+    }
+    
+    func updateRighBarButton(){
+        searchBtn.addTarget(self, action: #selector(BillNewTableViewController.filterClicked), for: .touchUpInside)
+        searchBtn.setImage(UIImage(named: "search"), for: .normal)
+        
+        let rightButton = UIBarButtonItem(customView: searchBtn)
+        self.parent?.navigationItem.setRightBarButtonItems([rightButton], animated: true)
+    }
+    
+    func filterClicked() -> Void {
+        if (didClickSearch == false) {
+            didClickSearch = true
+            createSearch()
+            searchBtn.setImage(UIImage(named: "cancel"), for: .normal)
+            let rightButton = UIBarButtonItem(customView: searchBtn)
+            self.parent?.navigationItem.setRightBarButtonItems([rightButton], animated: true)
+            
+        } else {
+            didClickSearch = false
+            removeSearch()
+            searchBtn.setImage(UIImage(named: "search"), for: .normal)
+            let rightButton = UIBarButtonItem(customView: searchBtn)
+            self.parent?.navigationItem.setRightBarButtonItems([rightButton], animated: true)
+        }
+        
+    }
+    func removeSearch() -> Void {
+        self.parent?.navigationItem.titleView = nil
+        self.parent?.navigationItem.title = "Legislator"
+    }
+    
+    func createSearch() -> Void {
+        searchBar.showsCancelButton = false
+        searchBar.placeholder = "search"
+        searchBar.delegate = self
+        
+        self.parent?.navigationItem.titleView = searchBar
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        //        print(searchText)
+        if (searchText.characters.count == 0) {
+            self.bills = self.bills_backup
+        } else {
+            var tmp : [BillModel] = []
+            for index in 1 ... self.bills_backup.count - 1 {
+                let model = self.bills_backup[index]
+                if (model.title.lowercased().contains(searchText.lowercased())) {
+                    tmp.append(model)
+                }
+            }
+            self.bills = tmp
+        }
+        self.tableView.reloadData()
+    }
+
     
     func downloadData() -> Void {
         let requestURL: NSURL = NSURL(string: baseURLStr + "f=billsnew")!
@@ -40,6 +107,7 @@ class BillNewTableViewController: UITableViewController {
                         for bill in results {
                             let model = BillModel.initBillWithDict(data: bill)
                             self.bills.append(model)
+                            self.bills_backup.append(model)
                         }
                     }
                     
