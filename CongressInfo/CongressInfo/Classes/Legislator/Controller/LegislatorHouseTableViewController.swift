@@ -8,17 +8,93 @@
 
 import UIKit
 
-class LegislatorHouseTableViewController: UITableViewController {
+class LegislatorHouseTableViewController: UITableViewController, UISearchBarDelegate {
 
     var legislators : [LegislatorModel] = []
+    var legislators_backup : [LegislatorModel] = []
     var delegate : FavouriteDataChangeProtocol!
+    
+    var didClickSearch = false
+    let searchBar = UISearchBar()
+    let searchBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
         self.tabBarController?.tabBar.isHidden = false
         navigationController?.navigationBar.topItem?.title = "Legislator"
         downloadData()
+        
+        updateRighBarButton()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        updateRighBarButton()
+    }
+    
+    func updateRighBarButton(){
+        
+        searchBtn.addTarget(self, action: #selector(LegislatorStateTableViewController.filterClicked), for: .touchUpInside)
+        
+        
+        searchBtn.setImage(UIImage(named: "search"), for: .normal)
+        
+        let rightButton = UIBarButtonItem(customView: searchBtn)
+        self.parent?.navigationItem.setRightBarButtonItems([rightButton], animated: true)
+    }
+    
+    func filterClicked() -> Void {
+        if (didClickSearch == false) {
+            didClickSearch = true
+            createSearch()
+            
+            
+            searchBtn.setImage(UIImage(named: "cancel"), for: .normal)
+            
+            let rightButton = UIBarButtonItem(customView: searchBtn)
+            self.parent?.navigationItem.setRightBarButtonItems([rightButton], animated: true)
+            
+        } else {
+            didClickSearch = false
+            removeSearch()
+            
+            searchBtn.setImage(UIImage(named: "search"), for: .normal)
+            
+            let rightButton = UIBarButtonItem(customView: searchBtn)
+            self.parent?.navigationItem.setRightBarButtonItems([rightButton], animated: true)
+        }
+        
+    }
+    func removeSearch() -> Void {
+        self.parent?.navigationItem.titleView = nil
+        self.parent?.navigationItem.title = "Legislator"
+    }
+    
+    func createSearch() -> Void {
+//        self.parent?.view.addSubview(self.searchBar)
+        searchBar.showsCancelButton = false
+        searchBar.placeholder = "search"
+        searchBar.delegate = self
+        
+        self.parent?.navigationItem.titleView = searchBar
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+//        print(searchText)
+        if (searchText.characters.count == 0) {
+            self.legislators = self.legislators_backup
+        } else {
+            var tmp : [LegislatorModel] = []
+            for index in 1 ... self.legislators_backup.count - 1 {
+                let model = self.legislators_backup[index]
+                if (model.name.lowercased().contains(searchText.lowercased())) {
+                    tmp.append(model)
+                }
+            }
+            self.legislators = tmp
+        }
+        self.tableView.reloadData()
+    }
+
     
     func downloadData() -> Void {
         let requestURL: NSURL = NSURL(string: baseURLStr + "f=legislatorshouse")!
@@ -38,6 +114,7 @@ class LegislatorHouseTableViewController: UITableViewController {
                         for legislator in results {
                             let model = LegislatorModel.initLegislatorWithDict(data: legislator)
                             self.legislators.append(model)
+                            self.legislators_backup.append(model)
                         }
                     }
                     

@@ -23,8 +23,29 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
         self.tabBarController?.tabBar.isHidden = false
         navigationController?.navigationBar.topItem?.title = "Legislator"
         downloadData()
-        
+        updateRighBarButton()
 //        createSearch()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        updateRighBarButton()
+    }
+    
+    func updateRighBarButton(){
+        let filterBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 30))
+        filterBtn.addTarget(self, action: #selector(LegislatorStateTableViewController.filterClicked), for: .touchUpInside)
+        
+//        filterBtn.setImage(UIImage(named: "liked"), for: .normal)
+        filterBtn.setTitle("Filter", for: .normal)
+        filterBtn.setTitleColor(UIColor.blue, for: .normal)
+        
+        let rightButton = UIBarButtonItem(customView: filterBtn)
+        self.parent?.navigationItem.setRightBarButtonItems([rightButton], animated: true)
+    }
+    
+    func filterClicked() -> Void {
+        createSearch()
+        print("test")
     }
     
     func createSearch() -> Void {
@@ -33,8 +54,10 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
         searchBar.placeholder = "search"
         searchBar.delegate = self
         
-        self.navigationItem.titleView = searchBar
+        self.parent?.navigationItem.titleView = searchBar
     }
+    
+    
 
     
     func downloadData() -> Void {
