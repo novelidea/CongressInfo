@@ -46,6 +46,8 @@ class LegislatorSenateTableViewController: UITableViewController, UISearchBarDel
                             self.legislators.append(model)
                             self.legislators_backup.append(model)
                         }
+                        self.legislators.sort { $0.last_name.compare($1.last_name) == .orderedAscending }
+                        self.legislators.sort { $0.last_name.compare($1.last_name) == .orderedAscending }
                     }
                 }catch {
                     print("Error with Json: \(error)")

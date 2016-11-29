@@ -80,6 +80,7 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
                             let model = LegislatorModel.initLegislatorWithDict(data: legislator)
                             self.legislators.append(model)
                         }
+                        self.legislators.sort { $0.state.compare($1.state) == .orderedAscending }
                     }
                     
                 }catch {

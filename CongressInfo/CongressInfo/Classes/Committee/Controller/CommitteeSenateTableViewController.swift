@@ -110,6 +110,8 @@ class CommitteeSenateTableViewController: UITableViewController, UISearchBarDele
                             self.committees.append(model)
                             self.committees_backup.append(model)
                         }
+                        self.committees.sort { $0.committee_name.compare($1.committee_name) == .orderedAscending }
+                        self.committees_backup.sort { $0.committee_name.compare($1.committee_name) == .orderedAscending }
                     }
                     
                 }catch {
