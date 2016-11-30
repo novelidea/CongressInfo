@@ -15,6 +15,7 @@ class AboutViewController: UIViewController {
         navigationController?.navigationBar.topItem?.title = "About"
         self.tabBarController?.tabBar.isHidden = true
         addChildView()
+        self.parent?.navigationItem.rightBarButtonItem = nil
         // Do any additional setup after loading the view.
     }
     
