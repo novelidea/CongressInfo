@@ -140,14 +140,14 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
                         }
                         self.legislators.sort { $0.state.compare($1.state) == .orderedAscending }
                         self.legislators_backup.sort { $0.state.compare($1.state) == .orderedAscending }
-
+                        self.tableView.reloadData()
                     }
                     
                 }catch {
                     print("Error with Json: \(error)")
                 }
             }
-            self.tableView.reloadData()
+            
         }
         
         task.resume()
@@ -190,7 +190,6 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
                     model.profile = data
                 }
             }
-            
         }
         return cell
     }

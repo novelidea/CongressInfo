@@ -8,16 +8,21 @@
 
 import UIKit
 
-class FavoriteLegislatorTableViewController: UITableViewController{
+class FavoriteLegislatorTableViewController: UITableViewController, UISearchBarDelegate{
 
     var delegate : FavouriteDataChangeProtocol!
     
     var legislators : [LegislatorModel] = []
+    var legislators_backup : [LegislatorModel] = []
+    var didClickSearch = false
+    let searchBar = UISearchBar()
+    let searchBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.topItem?.title = "Favorite"
         self.tabBarController?.tabBar.isHidden = false
         self.legislators = self.delegate.getFavouriteLegislators()
+        updateRighBarButton()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -27,6 +32,66 @@ class FavoriteLegislatorTableViewController: UITableViewController{
     
     override func viewWillAppear(_ animated: Bool) {
         self.legislators = self.delegate.getFavouriteLegislators()
+        self.legislators_backup = self.delegate.getFavouriteLegislators()
+        self.tableView.reloadData()
+        updateRighBarButton()
+    }
+    
+    func updateRighBarButton(){
+        searchBtn.addTarget(self, action: #selector(LegislatorStateTableViewController.filterClicked), for: .touchUpInside)
+        searchBtn.setImage(UIImage(named: "search"), for: .normal)
+        
+        let rightButton = UIBarButtonItem(customView: searchBtn)
+        self.parent?.navigationItem.setRightBarButtonItems([rightButton], animated: true)
+    }
+    
+    func filterClicked() -> Void {
+        if (didClickSearch == false) {
+            didClickSearch = true
+            createSearch()
+            searchBtn.setImage(UIImage(named: "cancel"), for: .normal)
+            let rightButton = UIBarButtonItem(customView: searchBtn)
+            self.parent?.navigationItem.setRightBarButtonItems([rightButton], animated: true)
+            
+        } else {
+            didClickSearch = false
+            removeSearch()
+            searchBtn.setImage(UIImage(named: "search"), for: .normal)
+            let rightButton = UIBarButtonItem(customView: searchBtn)
+            self.parent?.navigationItem.setRightBarButtonItems([rightButton], animated: true)
+        }
+        
+    }
+    func removeSearch() -> Void {
+        self.parent?.navigationItem.titleView = nil
+        self.parent?.navigationItem.title = "Legislator"
+    }
+    
+    func createSearch() -> Void {
+        searchBar.showsCancelButton = false
+        searchBar.placeholder = "search"
+        searchBar.delegate = self
+        
+        self.parent?.navigationItem.titleView = searchBar
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if (self.legislators_backup.count == 0) {
+            return
+        }
+        //        print(searchText)
+        if (searchText.characters.count == 0) {
+            self.legislators = self.legislators_backup
+        } else {
+            var tmp : [LegislatorModel] = []
+            for index in 1 ... self.legislators_backup.count - 1 {
+                let model = self.legislators_backup[index]
+                if (model.name.lowercased().contains(searchText.lowercased())) {
+                    tmp.append(model)
+                }
+            }
+            self.legislators = tmp
+        }
         self.tableView.reloadData()
     }
 

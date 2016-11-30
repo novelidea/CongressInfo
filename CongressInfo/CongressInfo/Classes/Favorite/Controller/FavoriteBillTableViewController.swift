@@ -8,17 +8,24 @@
 
 import UIKit
 
-class FavoriteBillTableViewController: UITableViewController {
+class FavoriteBillTableViewController: UITableViewController, UISearchBarDelegate {
 
     var delegate : FavouriteDataChangeProtocol!
     
     var bills : [BillModel] = []
+    
+    var bills_backup : [BillModel] = []
+    
+    var didClickSearch = false
+    let searchBar = UISearchBar()
+    let searchBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.topItem?.title = "Favorite"
         self.tabBarController?.tabBar.isHidden = false
         self.bills = self.delegate.getFavouriteBills()
         self.tableView.rowHeight = 120
+        updateRighBarButton()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -28,8 +35,70 @@ class FavoriteBillTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.bills = self.delegate.getFavouriteBills()
+        self.bills_backup = self.delegate.getFavouriteBills()
+        self.tableView.reloadData()
+        updateRighBarButton()
+    }
+    
+    
+    func updateRighBarButton(){
+        searchBtn.addTarget(self, action: #selector(BillActiveTableViewController.filterClicked), for: .touchUpInside)
+        searchBtn.setImage(UIImage(named: "search"), for: .normal)
+        
+        let rightButton = UIBarButtonItem(customView: searchBtn)
+        self.parent?.navigationItem.setRightBarButtonItems([rightButton], animated: true)
+    }
+    
+    func filterClicked() -> Void {
+        if (didClickSearch == false) {
+            didClickSearch = true
+            createSearch()
+            searchBtn.setImage(UIImage(named: "cancel"), for: .normal)
+            let rightButton = UIBarButtonItem(customView: searchBtn)
+            self.parent?.navigationItem.setRightBarButtonItems([rightButton], animated: true)
+            
+        } else {
+            didClickSearch = false
+            removeSearch()
+            searchBtn.setImage(UIImage(named: "search"), for: .normal)
+            let rightButton = UIBarButtonItem(customView: searchBtn)
+            self.parent?.navigationItem.setRightBarButtonItems([rightButton], animated: true)
+        }
+        
+    }
+    func removeSearch() -> Void {
+        self.parent?.navigationItem.titleView = nil
+        self.parent?.navigationItem.title = "Bill"
+    }
+    
+    func createSearch() -> Void {
+        searchBar.showsCancelButton = false
+        searchBar.placeholder = "search"
+        searchBar.delegate = self
+        
+        self.parent?.navigationItem.titleView = searchBar
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        //        print(searchText)
+        if (self.bills_backup.count == 0) {
+            return
+        }
+        if (searchText.characters.count == 0) {
+            self.bills = self.bills_backup
+        } else {
+            var tmp : [BillModel] = []
+            for index in 1 ... self.bills_backup.count - 1 {
+                let model = self.bills_backup[index]
+                if (model.title.lowercased().contains(searchText.lowercased())) {
+                    tmp.append(model)
+                }
+            }
+            self.bills = tmp
+        }
         self.tableView.reloadData()
     }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

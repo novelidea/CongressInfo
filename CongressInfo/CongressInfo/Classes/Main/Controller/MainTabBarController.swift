@@ -136,8 +136,20 @@ class MainTabBarController: UITabBarController, MenuItemDelegate, UITabBarContro
         self.view.backgroundColor = UIColor.white
         self.navigationController?.navigationBar.barStyle = UIBarStyle.blackTranslucent
         self.navigationController?.navigationBar.barTintColor=UIColor.white
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(test))
+        
+        
+        
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(test))
+        updateLeftBarButton()
         loadLegislators()
+    }
+    
+    func updateLeftBarButton(){
+        let menuBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+        menuBtn.addTarget(self, action: #selector(MainTabBarController.test), for: .touchUpInside)
+        menuBtn.setImage(UIImage(named: "menu"), for: .normal)
+        let rightButton = UIBarButtonItem(customView: menuBtn)
+        self.navigationItem.setLeftBarButtonItems([rightButton], animated: true)
     }
     
     func loadLegislators() -> Void {
