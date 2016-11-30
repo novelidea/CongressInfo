@@ -83,20 +83,31 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
         return pickerData.count
     }
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-//        print(pickerData[row])
+
         self.pickerView.isHidden = true
         self.tableView.isScrollEnabled = true
         if (pickerData[row] == "All States") {
+            self.indexArray = self.indexArray_backup
+            self.dataDict = self.dataDict_backup
             self.legislators = self.legislators_backup
         } else {
-            var tmp : [LegislatorModel] = []
-            for index in 0 ... self.legislators_backup.count - 1 {
-                let model = self.legislators_backup[index]
-                if (model.state == pickerData[row]) {
-                    tmp.append(model)
+            let selected : String = pickerData[row]
+            let letters = selected.characters.map { String($0) }
+            let key = letters[0]
+            self.dataDict = [:]
+            self.indexArray = []
+            if (self.dataDict_backup[key] != nil) {
+                self.indexArray.append(key)
+                let candidates : [LegislatorModel] = self.dataDict_backup[key]!
+                var tmp : [LegislatorModel] = []
+                for index in 0 ... candidates.count - 1 {
+                    let model = candidates[index]
+                    if (model.state == selected) {
+                        tmp.append(model)
+                    }
                 }
+                self.dataDict[key] = tmp
             }
-            self.legislators = tmp
         }
         self.tableView.reloadData()
     }
@@ -182,7 +193,7 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
                             if (self.indexArray.count > 0) {
                                 for i in 0 ... self.indexArray.count - 1 {
                                     let key = self.indexArray[i]
-                                    self.dataDict[key]?.sort { $0.state.compare($1.state) == .orderedAscending }
+                                    self.dataDict[key]?.sort { $0.last_name.compare($1.last_name) == .orderedAscending }
                                 }
                             }
                             self.dataDict_backup = self.dataDict
