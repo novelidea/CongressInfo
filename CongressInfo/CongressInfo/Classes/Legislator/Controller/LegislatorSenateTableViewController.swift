@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftSpinner
+import Alamofire
 
 class LegislatorSenateTableViewController: UITableViewController, UISearchBarDelegate {
 
@@ -32,6 +33,32 @@ class LegislatorSenateTableViewController: UITableViewController, UISearchBarDel
     }
     
     func downloadData() -> Void {
+        Alamofire.request(baseURLStr + "f=legislatorssenate").responseJSON { response in
+            
+            if let data = response.data {
+                do{
+                    let json = try JSONSerialization.jsonObject(with: data, options:.allowFragments) as! [String:AnyObject]
+                    if let results = json["results"] as? [[String: AnyObject]] {
+                        //                        print(results)
+                        for legislator in results {
+                            let model = LegislatorModel.initLegislatorWithDict(data: legislator)
+                            self.legislators.append(model)
+                            self.legislators_backup.append(model)
+                        }
+                        self.legislators.sort { $0.last_name.compare($1.last_name) == .orderedAscending }
+                        self.legislators.sort { $0.last_name.compare($1.last_name) == .orderedAscending }
+                        SwiftSpinner.hide()
+                        self.tableView.reloadData()
+                    }
+                    
+                }catch {
+                    print("Error with Json: \(error)")
+                }
+            }
+        }
+    }
+    
+    func downloadData2() -> Void {
         let requestURL: NSURL = NSURL(string: baseURLStr + "f=legislatorssenate")!
         let urlRequest: NSMutableURLRequest = NSMutableURLRequest(url: requestURL as URL)
         let session = URLSession.shared

@@ -24,6 +24,8 @@ class LegislatorModel: NSObject {
     var website = String()
     var office = String()
     var termEndOn = String()
+    
+    var image = UIImage()
     class func initLegislatorWithDict(data: [String: AnyObject]) -> LegislatorModel {
         let instance = LegislatorModel()
         if let bioguide_id = data["bioguide_id"] as? String {
@@ -77,6 +79,16 @@ class LegislatorModel: NSObject {
         if let termEndOn = data["term_end"] as? String {
             instance.termEndOn = termEndOn
         }
+//        let url = URL(string: legislatorThumbailURLStrBase + instance.bioguide_id + ".jpg")
+//        DispatchQueue.global().async {
+//                        if let data = try? Data(contentsOf: url!) {
+//                            DispatchQueue.main.async {
+////                                cell.imageView?.image = UIImage(data: data)
+//                                instance.profile = data
+//                            }
+//                        }
+//                    }
+
         return instance
     }
     

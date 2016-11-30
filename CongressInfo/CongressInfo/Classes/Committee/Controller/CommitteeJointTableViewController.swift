@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftSpinner
+import Alamofire
 
 class CommitteeJointTableViewController: UITableViewController, UISearchBarDelegate {
 
@@ -94,6 +95,33 @@ class CommitteeJointTableViewController: UITableViewController, UISearchBarDeleg
     }
     
     func downloadData() -> Void {
+        Alamofire.request(baseURLStr + "f=committeesjoint").responseJSON { response in
+            
+            if let data = response.data {
+                do{
+                    let json = try JSONSerialization.jsonObject(with: data, options:.allowFragments) as! [String:AnyObject]
+                    //                    print(json)
+                    if let results = json["results"] as? [[String: AnyObject]] {
+                        //                        print(results)
+                        for committee in results {
+                            let model = CommitteeModel.initCommitteeWithDict(data: committee)
+                            self.committees.append(model)
+                            self.committees_backup.append(model)
+                        }
+                        self.committees.sort { $0.committee_name.compare($1.committee_name) == .orderedAscending }
+                        self.committees_backup.sort { $0.committee_name.compare($1.committee_name) == .orderedAscending }
+                        SwiftSpinner.hide()
+                        self.tableView.reloadData()
+                    }
+                    
+                }catch {
+                    print("Error with Json: \(error)")
+                }
+            }
+        }
+    }
+    
+    func downloadData2() -> Void {
         let requestURL: NSURL = NSURL(string: baseURLStr + "f=committeesjoint")!
         let urlRequest: NSMutableURLRequest = NSMutableURLRequest(url: requestURL as URL)
         let session = URLSession.shared

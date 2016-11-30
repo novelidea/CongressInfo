@@ -127,11 +127,7 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
     }
     
     func downloadData() -> Void {
-        Alamofire.request(baseURLStr + "f=legislatorshouse").responseJSON { response in
-//            print(response.request)  // original URL request
-//            print(response.response) // HTTP URL response
-//            print(response.data)     // server data
-//            print(response.result)   // result of response serialization
+        Alamofire.request(baseURLStr + "f=legislators").responseJSON { response in
             
             if let data = response.data {
                 do{
@@ -145,7 +141,6 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
                         }
                         self.legislators.sort { $0.state.compare($1.state) == .orderedAscending }
                         self.legislators_backup.sort { $0.state.compare($1.state) == .orderedAscending }
-                        //                        SwiftSpinner.hide()
                         SwiftSpinner.hide()
                         self.tableView.reloadData()
                     }
@@ -153,7 +148,6 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
                 }catch {
                     print("Error with Json: \(error)")
                 }
-//                print("JSON: \(JSON)")
             }
         }
     }
@@ -176,9 +170,11 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
                 do{
                     let json = try JSONSerialization.jsonObject(with: data!, options:.allowFragments) as! [String:AnyObject]
                     if let results = json["results"] as? [[String: AnyObject]] {
-//                        print(results)
+                        print(results)
                         for legislator in results {
                             let model = LegislatorModel.initLegislatorWithDict(data: legislator)
+                            
+
                             self.legislators.append(model)
                             self.legislators_backup.append(model)
                         }
@@ -226,17 +222,41 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "legislatorsState")
         cell.textLabel?.text = model.name
         cell.detailTextLabel?.text = model.state
+//        cell.imageView?.image = UIImage(data: model.profile)
         
         let url = URL(string: legislatorThumbailURLStrBase + model.bioguide_id + ".jpg")
-
-//        DispatchQueue.global().async {
-//            if let data = try? Data(contentsOf: url!) {
-//                DispatchQueue.main.async {
-//                    cell.imageView?.image = UIImage(data: data)
-//                    model.profile = data
-//                }
+        
+//        ImageLoader.sharedLoader.imageForUrl(urlString: legislatorThumbailURLStrBase + model.bioguide_id + ".jpg", completionHandler:{(image: UIImage?, url: String) in
+//            cell.imageView?.image = image
+//        })
+//        cell.imageView?.imageFromUrl(urlString: legislatorThumbailURLStrBase + model.bioguide_id + ".jpg")
+//        URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) -> Void in
+//            
+//            if error != nil {
+////                print(error ?? )
+//                return
 //            }
-//        }
+//            DispatchQueue.main.async(execute: { () -> Void in
+//                let image = UIImage(data: data!)
+//                
+//                cell.imageView?.image = image
+//            })
+//            
+//        }).resume()
+        
+        if (model.profile.count == 0) {
+            DispatchQueue.global().async {
+                if let data = try? Data(contentsOf: url!) {
+                    DispatchQueue.main.async {
+                        cell.imageView?.image = UIImage(data: data)
+                        model.profile = data
+                    }
+                }
+            }
+        } else {
+            cell.imageView?.image = UIImage(data: model.profile)
+        }
+        
         return cell
     }
     

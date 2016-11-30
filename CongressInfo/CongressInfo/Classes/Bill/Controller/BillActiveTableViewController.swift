@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftSpinner
+import Alamofire
 
 class BillActiveTableViewController: UITableViewController, UISearchBarDelegate {
     
@@ -93,8 +94,42 @@ class BillActiveTableViewController: UITableViewController, UISearchBarDelegate 
         self.tableView.reloadData()
     }
 
-    
     func downloadData() -> Void {
+        Alamofire.request(baseURLStr + "f=billsactive").responseJSON { response in
+            
+            if let data = response.data {
+                do{
+                    let json = try JSONSerialization.jsonObject(with: data, options:.allowFragments) as! [String:AnyObject]
+                    if let results = json["results"] as? [[String: AnyObject]] {
+                        //                        print(results)
+                        for bill in results {
+                            let model = BillModel.initBillWithDict(data: bill)
+                            self.bills.append(model)
+                            self.bills_backup.append(model)
+                            SwiftSpinner.hide()
+                        }
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.dateFormat = "YYYY-MM-DD"
+                        //            let origin = dateFormatter.date(from: introduced_on)
+                        print(self.bills[0].introduced_on)
+                        //            self.bills.sort(by: {dateFormatter.date(from:$0.introduced_on)?.timeIntervalSince1970 < dateFormatter.date(from:$1.introduced_on).timeIntervalSince1970})
+                        
+                        self.bills.sort { dateFormatter.date(from:$0.introduced_on)?.compare(dateFormatter.date(from:($1.introduced_on))!) == .orderedDescending }
+                        
+                        //            self.bills.sort { $0.introduced_on.compare($1.introduced_on) == .orderedDescending }
+                        print(self.bills[0].introduced_on)
+                        self.tableView.reloadData()
+
+                    }
+                    
+                }catch {
+                    print("Error with Json: \(error)")
+                }
+            }
+        }
+    }
+    
+    func downloadData2() -> Void {
         let requestURL: NSURL = NSURL(string: baseURLStr + "f=billsactive")!
         let urlRequest: NSMutableURLRequest = NSMutableURLRequest(url: requestURL as URL)
         let session = URLSession.shared
