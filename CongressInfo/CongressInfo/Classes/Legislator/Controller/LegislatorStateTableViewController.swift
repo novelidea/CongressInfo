@@ -9,12 +9,22 @@
 import UIKit
 import Alamofire
 
-class LegislatorStateTableViewController: UITableViewController, UISearchBarDelegate{
+class LegislatorStateTableViewController: UITableViewController, UISearchBarDelegate, UIPickerViewDelegate, UIPickerViewDataSource{
+    @available(iOS 2.0, *)
+    public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerData.count
+    }
 
+
+    let pickerData : [String] =  usStates
     var legislators : [LegislatorModel] = []
     
-//    lazy   var searchBar:UISearchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: 200, height: 20))
-//    lazy var searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: 200, height: 20))
+    var legislators_backup : [LegislatorModel] = []
+    var didClickSearch = false
+//    let searchBar = UISearchBar()
+//    let searchBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+    
+    let pickerView = UIPickerView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight))
     
     var delegate : FavouriteDataChangeProtocol!
     override func viewDidLoad() {
@@ -24,11 +34,54 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
         navigationController?.navigationBar.topItem?.title = "Legislator"
         downloadData()
         updateRighBarButton()
+        self.pickerView.delegate = self
+        self.pickerView.dataSource = self
+        self.pickerView.isHidden = true
+        self.view.addSubview(self.pickerView)
+        
+        self.pickerView.backgroundColor = UIColor.white
 //        createSearch()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         updateRighBarButton()
+    }
+    
+    
+    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        return 50
+    }
+    func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
+        return screenWidth
+    }
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        let label = UILabel()
+//        label.backgroundColor = UIColor.blue
+        label.text = self.pickerData[row]
+        label.textAlignment = .center
+        label.font = UIFont.boldSystemFont(ofSize: 30)
+        return label
+    }
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return pickerData.count
+    }
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+//        print(pickerData[row])
+        self.pickerView.isHidden = true
+        self.tableView.isScrollEnabled = true
+        if (pickerData[row] == "All States") {
+            self.legislators = self.legislators_backup
+        } else {
+            var tmp : [LegislatorModel] = []
+            for index in 0 ... self.legislators_backup.count - 1 {
+                let model = self.legislators_backup[index]
+                if (model.state == pickerData[row]) {
+                    tmp.append(model)
+                }
+            }
+            self.legislators = tmp
+        }
+        self.tableView.reloadData()
     }
     
     func updateRighBarButton(){
@@ -44,8 +97,15 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
     }
     
     func filterClicked() -> Void {
-        createSearch()
-        print("test")
+//        createSearch()
+//        createPickerView()
+        self.pickerView.isHidden = false
+        self.tableView.isScrollEnabled = false
+    }
+    
+    func createPickerView() -> Void {
+//        self.pickerView.backgroundColor = UIColor.red
+        self.view.addSubview(self.pickerView)
     }
     
     func createSearch() -> Void {
@@ -56,9 +116,6 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
         
         self.parent?.navigationItem.titleView = searchBar
     }
-    
-    
-
     
     func downloadData() -> Void {
         let requestURL: NSURL = NSURL(string: baseURLStr + "f=legislatorshouse")!
@@ -79,8 +136,11 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
                         for legislator in results {
                             let model = LegislatorModel.initLegislatorWithDict(data: legislator)
                             self.legislators.append(model)
+                            self.legislators_backup.append(model)
                         }
                         self.legislators.sort { $0.state.compare($1.state) == .orderedAscending }
+                        self.legislators_backup.sort { $0.state.compare($1.state) == .orderedAscending }
+
                     }
                     
                 }catch {
