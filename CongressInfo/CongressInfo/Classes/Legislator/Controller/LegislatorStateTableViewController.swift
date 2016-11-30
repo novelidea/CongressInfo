@@ -258,8 +258,8 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
         // #warning Incomplete implementation, return the number of sections
 //        return self.legislators.count == 0 ? 0 : 1
 //        return 1
-        print("section number is: ")
-        print(self.indexArray.count)
+//        print("section number is: ")
+//        print(self.indexArray.count)
         return self.indexArray.count
     }
 

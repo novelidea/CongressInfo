@@ -15,6 +15,13 @@ class LegislatorSenateTableViewController: UITableViewController, UISearchBarDel
     var legislators : [LegislatorModel] = []
     var delegate : FavouriteDataChangeProtocol!
     
+    // Dictionary Section
+    var dataDict = [String : [LegislatorModel]]()
+    var dataDict_backup = [String : [LegislatorModel]]()
+    
+    var indexArray : [String] = []
+    var indexArray_backup : [String] = []
+    
     var legislators_backup : [LegislatorModel] = []
     var didClickSearch = false
     let searchBar = UISearchBar()
@@ -52,9 +59,45 @@ class LegislatorSenateTableViewController: UITableViewController, UISearchBarDel
                             let model = LegislatorModel.initLegislatorWithDict(data: legislator)
                             self.legislators.append(model)
                             self.legislators_backup.append(model)
+                            
+                            if (self.indexArray_backup.count == 0) {
+                                let state = model.state
+                                let letters = state.characters.map { String($0) }
+                                let key = letters[0]
+                                //                            if (self.indexArray.count == 0) {
+                                
+                                
+                                if (self.dataDict[key] == nil) {
+                                    self.indexArray.append(key)
+                                    var valueArray : [LegislatorModel] = []
+                                    valueArray.append(model)
+                                    self.dataDict[key] = valueArray
+                                } else {
+                                    var valueArray : [LegislatorModel] = self.dataDict[key]!
+                                    valueArray.append(model)
+                                    self.dataDict[key] = valueArray
+                                }
+                            }
                         }
                         self.legislators.sort { $0.last_name.compare($1.last_name) == .orderedAscending }
                         self.legislators.sort { $0.last_name.compare($1.last_name) == .orderedAscending }
+                        
+                        if (self.indexArray_backup.count == 0) {
+                            self.indexArray.sort { $0.compare($1) == .orderedAscending}
+                            self.indexArray_backup = self.indexArray
+                            if (self.indexArray.count > 0) {
+                                for i in 0 ... self.indexArray.count - 1 {
+                                    let key = self.indexArray[i]
+                                    self.dataDict[key]?.sort { $0.state.compare($1.state) == .orderedAscending }
+                                }
+                            }
+                            self.dataDict_backup = self.dataDict
+                        } else {
+                            self.dataDict = self.dataDict_backup
+                            self.indexArray = self.indexArray_backup
+                        }
+
+                        
                         SwiftSpinner.hide()
                         self.tableView.reloadData()
                     }
@@ -173,13 +216,16 @@ class LegislatorSenateTableViewController: UITableViewController, UISearchBarDel
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         //        return self.legislators.count == 0 ? 0 : 1
-        return 1
+//        return 1
+        return self.indexArray.count
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        print(self.legislators.count)
-        return self.legislators.count
+//        print(self.legislators.count)
+//        return self.legislators.count
+        let key = self.indexArray[section]
+        return (self.dataDict[key]?.count)!
     }
     
     
@@ -202,8 +248,10 @@ class LegislatorSenateTableViewController: UITableViewController, UISearchBarDel
 //            
 //        }
 //        return cell
-        
-        let model = self.legislators[indexPath.row]
+        let key = self.indexArray[indexPath.section]
+        let array = self.dataDict[key]
+        let model : LegislatorModel = (array?[indexPath.row])!
+//        let model = self.legislators[indexPath.row]
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "legislatorsState")
         cell.textLabel?.text = model.name
         cell.detailTextLabel?.text = model.state
@@ -226,6 +274,10 @@ class LegislatorSenateTableViewController: UITableViewController, UISearchBarDel
         }
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return self.indexArray[section]
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
