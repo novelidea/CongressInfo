@@ -155,13 +155,17 @@ class MainTabBarController: UITabBarController, MenuItemDelegate, UITabBarContro
     func loadLegislators() -> Void {
         let stateVC = LegislatorStateTableViewController()
         stateVC.delegate = self
+        
         let houseVC = LegislatorHouseTableViewController()
         houseVC.delegate = self
         let senateVC = LegislatorSenateTableViewController()
         senateVC.delegate = self
-        stateVC.title = "State"
-        houseVC.title = "House"
-        senateVC.title = "Senate"
+//        stateVC.title = "State"
+//        houseVC.title = "House"
+//        senateVC.title = "Senate"
+        stateVC.tabBarItem = TabBarItemView.initTabBarItemWithName(name: "State")
+        houseVC.tabBarItem = TabBarItemView.initTabBarItemWithName(name: "House")
+        senateVC.tabBarItem = TabBarItemView.initTabBarItemWithName(name: "Senate")
         let controllers = [stateVC, houseVC, senateVC]
         self.viewControllers = controllers
     }
@@ -171,8 +175,10 @@ class MainTabBarController: UITabBarController, MenuItemDelegate, UITabBarContro
         activeVC.delegate = self
         let newVC = BillNewTableViewController()
         newVC.delegate = self
-        activeVC.title = "Active"
-        newVC.title = "New"
+//        activeVC.title = "Active"
+//        newVC.title = "New"
+        activeVC.tabBarItem = TabBarItemView.initTabBarItemWithName(name: "Active")
+        newVC.tabBarItem = TabBarItemView.initTabBarItemWithName(name: "New")
         let controllers = [activeVC, newVC]
         self.viewControllers = controllers
     }
@@ -184,9 +190,12 @@ class MainTabBarController: UITabBarController, MenuItemDelegate, UITabBarContro
         senateVC.delegate = self
         let jointVC = CommitteeJointTableViewController()
         jointVC.delegate = self
-        houseVC.title = "House"
-        senateVC.title = "Senate"
-        jointVC.title = "Joint"
+//        houseVC.title = "House"
+//        senateVC.title = "Senate"
+//        jointVC.title = "Joint"
+        houseVC.tabBarItem = TabBarItemView.initTabBarItemWithName(name: "House")
+        senateVC.tabBarItem = TabBarItemView.initTabBarItemWithName(name: "Senate")
+        jointVC.tabBarItem = TabBarItemView.initTabBarItemWithName(name: "Joint")
         let controllers = [houseVC, senateVC, jointVC]
         self.viewControllers = controllers
     }
@@ -198,9 +207,12 @@ class MainTabBarController: UITabBarController, MenuItemDelegate, UITabBarContro
         billVC.delegate = self
         let committeeVC = FavoriteCommitteeTableViewController()
         committeeVC.delegate = self
-        legislatorVC.title = "Legislators"
-        billVC.title = "Bills"
-        committeeVC.title = "Committees"
+//        legislatorVC.title = "Legislators"
+//        billVC.title = "Bills"
+//        committeeVC.title = "Committees"
+        legislatorVC.tabBarItem = TabBarItemView.initTabBarItemWithName(name: "Legislator")
+        billVC.tabBarItem = TabBarItemView.initTabBarItemWithName(name: "Bill")
+        committeeVC.tabBarItem = TabBarItemView.initTabBarItemWithName(name: "Committee")
         let controllers = [legislatorVC, billVC, committeeVC]
         self.viewControllers = controllers
     }
