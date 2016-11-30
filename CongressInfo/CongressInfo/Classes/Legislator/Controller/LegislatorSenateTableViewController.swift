@@ -25,14 +25,22 @@ class LegislatorSenateTableViewController: UITableViewController, UISearchBarDel
         self.view.backgroundColor = UIColor.white
         self.tabBarController?.tabBar.isHidden = false
         navigationController?.navigationBar.topItem?.title = "Legislator"
-        downloadData()
+//        downloadData()
     }
     override func viewWillAppear(_ animated: Bool) {
-        SwiftSpinner.show("Fetching Data...")
-        downloadData()
+        if (self.legislators_backup.count == 0) {
+            SwiftSpinner.show("Fetching Data...")
+            downloadData()
+        }
+//        SwiftSpinner.show("Fetching Data...")
+//        downloadData()
     }
     
     func downloadData() -> Void {
+        if (self.legislators_backup.count > 0) {
+            SwiftSpinner.hide()
+            return
+        }
         Alamofire.request(baseURLStr + "f=legislatorssenate").responseJSON { response in
             
             if let data = response.data {
@@ -72,6 +80,8 @@ class LegislatorSenateTableViewController: UITableViewController, UISearchBarDel
                 print("Everyone is fine, file downloaded successfully.")
                 do{
                     let json = try JSONSerialization.jsonObject(with: data!, options:.allowFragments) as! [String:AnyObject]
+                    self.legislators = []
+                    self.legislators_backup = []
                     if let results = json["results"] as? [[String: AnyObject]] {
                         for legislator in results {
                             let model = LegislatorModel.initLegislatorWithDict(data: legislator)
@@ -175,6 +185,24 @@ class LegislatorSenateTableViewController: UITableViewController, UISearchBarDel
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+//        let model = self.legislators[indexPath.row]
+//        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "legislatorsState")
+//        cell.textLabel?.text = model.name
+//        cell.detailTextLabel?.text = model.state
+//        
+//        let url = URL(string: legislatorThumbailURLStrBase + model.bioguide_id + ".jpg")
+//        
+//        DispatchQueue.global().async {
+//            if let data = try? Data(contentsOf: url!) {
+//                DispatchQueue.main.async {
+//                    cell.imageView?.image = UIImage(data: data)
+//                    model.profile = data
+//                }
+//            }
+//            
+//        }
+//        return cell
+        
         let model = self.legislators[indexPath.row]
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "legislatorsState")
         cell.textLabel?.text = model.name
@@ -182,15 +210,21 @@ class LegislatorSenateTableViewController: UITableViewController, UISearchBarDel
         
         let url = URL(string: legislatorThumbailURLStrBase + model.bioguide_id + ".jpg")
         
-        DispatchQueue.global().async {
-            if let data = try? Data(contentsOf: url!) {
-                DispatchQueue.main.async {
-                    cell.imageView?.image = UIImage(data: data)
-                    model.profile = data
+        
+        if (model.profile.count == 0) {
+            DispatchQueue.global().async {
+                if let data = try? Data(contentsOf: url!) {
+                    DispatchQueue.main.async {
+                        cell.imageView?.image = UIImage(data: data)
+                        model.profile = data
+                        cell.layoutSubviews()
+                    }
                 }
             }
-            
+        } else {
+            cell.imageView?.image = UIImage(data: model.profile)
         }
+        
         return cell
     }
     

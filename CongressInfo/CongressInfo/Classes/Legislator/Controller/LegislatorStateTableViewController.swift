@@ -33,8 +33,9 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
         self.tabBarController?.tabBar.isHidden = false
-        navigationController?.navigationBar.topItem?.title = "Legislator"
-        downloadData()
+        self.parent?.navigationItem.title = "Legislator"
+//        navigationController?.navigationBar.topItem?.title = "Legislator"
+//        downloadData()
         updateRighBarButton()
         self.pickerView.delegate = self
         self.pickerView.dataSource = self
@@ -127,11 +128,16 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
     }
     
     func downloadData() -> Void {
+        if (self.legislators_backup.count > 0) {
+            SwiftSpinner.hide()
+            return
+        }
         Alamofire.request(baseURLStr + "f=legislators").responseJSON { response in
             
             if let data = response.data {
                 do{
                     let json = try JSONSerialization.jsonObject(with: data, options:.allowFragments) as! [String:AnyObject]
+                    
                     if let results = json["results"] as? [[String: AnyObject]] {
                         //                        print(results)
                         for legislator in results {
@@ -217,32 +223,14 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+
         let model = self.legislators[indexPath.row] 
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "legislatorsState")
         cell.textLabel?.text = model.name
         cell.detailTextLabel?.text = model.state
-//        cell.imageView?.image = UIImage(data: model.profile)
         
         let url = URL(string: legislatorThumbailURLStrBase + model.bioguide_id + ".jpg")
         
-//        ImageLoader.sharedLoader.imageForUrl(urlString: legislatorThumbailURLStrBase + model.bioguide_id + ".jpg", completionHandler:{(image: UIImage?, url: String) in
-//            cell.imageView?.image = image
-//        })
-//        cell.imageView?.imageFromUrl(urlString: legislatorThumbailURLStrBase + model.bioguide_id + ".jpg")
-//        URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) -> Void in
-//            
-//            if error != nil {
-////                print(error ?? )
-//                return
-//            }
-//            DispatchQueue.main.async(execute: { () -> Void in
-//                let image = UIImage(data: data!)
-//                
-//                cell.imageView?.image = image
-//            })
-//            
-//        }).resume()
         
         if (model.profile.count == 0) {
             DispatchQueue.global().async {
@@ -250,6 +238,7 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
                     DispatchQueue.main.async {
                         cell.imageView?.image = UIImage(data: data)
                         model.profile = data
+                        cell.layoutSubviews()
                     }
                 }
             }
