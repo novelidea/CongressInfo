@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftSpinner
 
 class BillActiveTableViewController: UITableViewController, UISearchBarDelegate {
     
@@ -30,6 +31,11 @@ class BillActiveTableViewController: UITableViewController, UISearchBarDelegate 
     
     override func viewDidAppear(_ animated: Bool) {
         updateRighBarButton()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        SwiftSpinner.show("Fetching Data...")
+        downloadData()
     }
     
     func updateRighBarButton(){
@@ -108,6 +114,7 @@ class BillActiveTableViewController: UITableViewController, UISearchBarDelegate 
                             let model = BillModel.initBillWithDict(data: bill)
                             self.bills.append(model)
                             self.bills_backup.append(model)
+                            SwiftSpinner.hide()
                         }
                     }
                     

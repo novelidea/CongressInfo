@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftSpinner
 
 class LegislatorSenateTableViewController: UITableViewController, UISearchBarDelegate {
 
@@ -23,6 +24,10 @@ class LegislatorSenateTableViewController: UITableViewController, UISearchBarDel
         self.view.backgroundColor = UIColor.white
         self.tabBarController?.tabBar.isHidden = false
         navigationController?.navigationBar.topItem?.title = "Legislator"
+        downloadData()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        SwiftSpinner.show("Fetching Data...")
         downloadData()
     }
     
@@ -48,6 +53,7 @@ class LegislatorSenateTableViewController: UITableViewController, UISearchBarDel
                         }
                         self.legislators.sort { $0.last_name.compare($1.last_name) == .orderedAscending }
                         self.legislators.sort { $0.last_name.compare($1.last_name) == .orderedAscending }
+                        SwiftSpinner.hide()
                     }
                 }catch {
                     print("Error with Json: \(error)")

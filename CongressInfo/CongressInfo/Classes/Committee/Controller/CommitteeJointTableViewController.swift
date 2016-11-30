@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftSpinner
 
 class CommitteeJointTableViewController: UITableViewController, UISearchBarDelegate {
 
@@ -25,6 +26,11 @@ class CommitteeJointTableViewController: UITableViewController, UISearchBarDeleg
         self.tabBarController?.tabBar.isHidden = false
         navigationController?.navigationBar.topItem?.title = "Committee"
         //        self.tableView.rowHeight = 120
+        downloadData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        SwiftSpinner.show("Fetching Data...")
         downloadData()
     }
     
@@ -111,6 +117,7 @@ class CommitteeJointTableViewController: UITableViewController, UISearchBarDeleg
                         }
                         self.committees.sort { $0.committee_name.compare($1.committee_name) == .orderedAscending }
                         self.committees_backup.sort { $0.committee_name.compare($1.committee_name) == .orderedAscending }
+                        SwiftSpinner.hide()
                     }
                     
                 }catch {

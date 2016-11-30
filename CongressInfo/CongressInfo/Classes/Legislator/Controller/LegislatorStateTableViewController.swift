@@ -8,6 +8,8 @@
 
 import UIKit
 import Alamofire
+//import NVActivityIndicatorView
+import SwiftSpinner
 
 class LegislatorStateTableViewController: UITableViewController, UISearchBarDelegate, UIPickerViewDelegate, UIPickerViewDataSource{
     @available(iOS 2.0, *)
@@ -15,7 +17,7 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
         return pickerData.count
     }
 
-
+//    let activityIndicatorView = NVActivityIndicatorView
     let pickerData : [String] =  usStates
     var legislators : [LegislatorModel] = []
     
@@ -41,6 +43,11 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
         
         self.pickerView.backgroundColor = UIColor.white
 //        createSearch()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        SwiftSpinner.show("Fetching Data...")
+        downloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -118,6 +125,7 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
     }
     
     func downloadData() -> Void {
+        
         let requestURL: NSURL = NSURL(string: baseURLStr + "f=legislatorshouse")!
         let urlRequest: NSMutableURLRequest = NSMutableURLRequest(url: requestURL as URL)
         let session = URLSession.shared
@@ -140,6 +148,8 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
                         }
                         self.legislators.sort { $0.state.compare($1.state) == .orderedAscending }
                         self.legislators_backup.sort { $0.state.compare($1.state) == .orderedAscending }
+//                        SwiftSpinner.hide()
+                        SwiftSpinner.hide()
                         self.tableView.reloadData()
                     }
                     

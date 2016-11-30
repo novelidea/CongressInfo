@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftSpinner
 
 class CommitteeSenateTableViewController: UITableViewController, UISearchBarDelegate {
 
@@ -27,6 +28,11 @@ class CommitteeSenateTableViewController: UITableViewController, UISearchBarDele
         //        self.tableView.rowHeight = 120
         downloadData()
         updateRighBarButton()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        SwiftSpinner.show("Fetching Data...")
+        downloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -112,6 +118,7 @@ class CommitteeSenateTableViewController: UITableViewController, UISearchBarDele
                         }
                         self.committees.sort { $0.committee_name.compare($1.committee_name) == .orderedAscending }
                         self.committees_backup.sort { $0.committee_name.compare($1.committee_name) == .orderedAscending }
+                        SwiftSpinner.hide()
                     }
                     
                 }catch {

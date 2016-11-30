@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftSpinner
 
 class LegislatorHouseTableViewController: UITableViewController, UISearchBarDelegate {
 
@@ -29,6 +30,11 @@ class LegislatorHouseTableViewController: UITableViewController, UISearchBarDele
     
     override func viewDidAppear(_ animated: Bool) {
         updateRighBarButton()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        SwiftSpinner.show("Fetching Data...")
+        downloadData()
     }
     
     func updateRighBarButton(){
@@ -109,6 +115,7 @@ class LegislatorHouseTableViewController: UITableViewController, UISearchBarDele
                         }
                         self.legislators.sort { $0.last_name.compare($1.last_name) == .orderedAscending }
                         self.legislators.sort { $0.last_name.compare($1.last_name) == .orderedAscending }
+                        SwiftSpinner.hide()
                     }
                     
                 }catch {
