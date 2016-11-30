@@ -307,9 +307,17 @@ class LegislatorHouseTableViewController: UITableViewController, UISearchBarDele
         return self.indexArray[section]
     }
     
+    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return self.indexArray
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let key = self.indexArray[indexPath.section]
+        let array = self.dataDict[key]
+        let model : LegislatorModel = (array?[indexPath.row])!
+        
         let detailVC = LegislatorDetailViewController()
-        detailVC.legislatorDetail = self.legislators[indexPath.row]
+        detailVC.legislatorDetail = model
         detailVC.delegate = self.delegate
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
