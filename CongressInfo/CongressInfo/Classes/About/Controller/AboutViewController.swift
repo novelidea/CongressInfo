@@ -20,9 +20,9 @@ class AboutViewController: UIViewController {
     }
     
     func addChildView() -> Void {
-        let profile = UIImage(named: "profile");
+        let profile = UIImage(named: "profile2");
         let profileView = UIImageView(image: profile);
-        profileView.frame = CGRect(x: 40, y: 90, width: screenWidth - 2 * 40, height: screenHeight * 0.4)
+        profileView.frame = CGRect(x: 30, y: 90, width: screenWidth - 2 * 30, height: screenHeight * 0.4)
         self.view.addSubview(profileView)
         
         let infoLabel = UILabel(frame: CGRect(x: 30, y: screenHeight * 0.55, width: screenWidth - 2 * 30, height: 40))

@@ -112,6 +112,7 @@ class BillNewTableViewController: UITableViewController, UISearchBarDelegate {
                             self.bills_backup.append(model)
                             SwiftSpinner.hide()
                         }
+                        self.bills.sort { $0.introduced_on.compare($1.introduced_on) == .orderedDescending}
 //                        let dateFormatter = DateFormatter()
 //                        dateFormatter.dateFormat = "YYYY-MM-DD"
                         

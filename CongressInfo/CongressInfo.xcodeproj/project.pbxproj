@@ -39,7 +39,6 @@
 		DA31972E1DDFB7E7007A846C /* CommitteeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA31972D1DDFB7E7007A846C /* CommitteeDetailViewController.swift */; };
 		DA6D98931DEE36210021E4D8 /* BillTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6D98921DEE36210021E4D8 /* BillTableViewCell.swift */; };
 		DA6D98951DEE65A30021E4D8 /* TabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6D98941DEE65A30021E4D8 /* TabBarItemView.swift */; };
-		DA9223741DEF4E48009EE28E /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9223731DEF4E48009EE28E /* ImageLoader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,7 +77,6 @@
 		DA31972D1DDFB7E7007A846C /* CommitteeDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommitteeDetailViewController.swift; sourceTree = "<group>"; };
 		DA6D98921DEE36210021E4D8 /* BillTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillTableViewCell.swift; sourceTree = "<group>"; };
 		DA6D98941DEE65A30021E4D8 /* TabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
-		DA9223731DEF4E48009EE28E /* ImageLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		E1F22ED42A4E6E92BB138A49 /* Pods-CongressInfo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CongressInfo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CongressInfo/Pods-CongressInfo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -295,7 +293,6 @@
 		DA3196E11DDD3C7B007A846C /* Others */ = {
 			isa = PBXGroup;
 			children = (
-				DA9223731DEF4E48009EE28E /* ImageLoader.swift */,
 				DA3196E21DDD3C7B007A846C /* AppDelegate.swift */,
 				DA3196E31DDD3C7B007A846C /* Controller */,
 				DA3196E41DDD3C7B007A846C /* Model */,
@@ -560,7 +557,6 @@
 				DA3197041DDE800E007A846C /* LegislatorHouseTableViewController.swift in Sources */,
 				DA6D98951DEE65A30021E4D8 /* TabBarItemView.swift in Sources */,
 				DA3197121DDE832B007A846C /* FavoriteLegislatorTableViewController.swift in Sources */,
-				DA9223741DEF4E48009EE28E /* ImageLoader.swift in Sources */,
 				DA3197281DDFA38B007A846C /* BillDetailViewController.swift in Sources */,
 				DA3196FC1DDE74E2007A846C /* LegislatorStateTableViewController.swift in Sources */,
 				DA3197201DDEC0C0007A846C /* LegislatorModel.swift in Sources */,
