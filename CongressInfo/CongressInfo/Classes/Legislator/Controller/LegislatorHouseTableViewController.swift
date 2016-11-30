@@ -180,7 +180,7 @@ class LegislatorHouseTableViewController: UITableViewController, UISearchBarDele
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        print(self.legislators.count)
+//        print(self.legislators.count)
         return self.legislators.count
     }
     

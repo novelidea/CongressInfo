@@ -16,6 +16,13 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
     public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return pickerData.count
     }
+    
+    // Dictionary Section
+    var dataDict = [String : [LegislatorModel]]()
+    var dataDict_backup = [String : [LegislatorModel]]()
+    
+    var indexArray : [String] = []
+    var indexArray_backup : [String] = []
 
 //    let activityIndicatorView = NVActivityIndicatorView
     let pickerData : [String] =  usStates
@@ -144,9 +151,47 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
                             let model = LegislatorModel.initLegislatorWithDict(data: legislator)
                             self.legislators.append(model)
                             self.legislators_backup.append(model)
+                            if (self.indexArray_backup.count == 0) {
+                                let state = model.state
+                                let letters = state.characters.map { String($0) }
+                                let key = letters[0]
+                                //                            if (self.indexArray.count == 0) {
+                                
+                                
+                                if (self.dataDict[key] == nil) {
+                                    self.indexArray.append(key)
+                                    var valueArray : [LegislatorModel] = []
+                                    valueArray.append(model)
+                                    self.dataDict[key] = valueArray
+                                } else {
+                                    var valueArray : [LegislatorModel] = self.dataDict[key]!
+                                    valueArray.append(model)
+                                    self.dataDict[key] = valueArray
+                                }
+                            }
+                            
+                            
+                            //                            }
+//                            print(letters[0])
                         }
                         self.legislators.sort { $0.state.compare($1.state) == .orderedAscending }
                         self.legislators_backup.sort { $0.state.compare($1.state) == .orderedAscending }
+                        if (self.indexArray_backup.count == 0) {
+                            self.indexArray.sort { $0.compare($1) == .orderedAscending}
+                            self.indexArray_backup = self.indexArray
+                            if (self.indexArray.count > 0) {
+                                for i in 0 ... self.indexArray.count - 1 {
+                                    let key = self.indexArray[i]
+                                    self.dataDict[key]?.sort { $0.state.compare($1.state) == .orderedAscending }
+                                }
+                            }
+                            self.dataDict_backup = self.dataDict
+                        } else {
+                            self.dataDict = self.dataDict_backup
+                            self.indexArray = self.indexArray_backup
+                        }
+                        
+                        
                         SwiftSpinner.hide()
                         self.tableView.reloadData()
                     }
@@ -158,48 +203,48 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
         }
     }
     
-    func downloadData2() -> Void {
-        
-        
-        
-        let requestURL: NSURL = NSURL(string: baseURLStr + "f=legislatorshouse")!
-        let urlRequest: NSMutableURLRequest = NSMutableURLRequest(url: requestURL as URL)
-        let session = URLSession.shared
-        let task = session.dataTask(with: urlRequest as URLRequest) {
-            (data, response, error) -> Void in
-            
-            let httpResponse = response as! HTTPURLResponse
-            let statusCode = httpResponse.statusCode
-            
-            if (statusCode == 200) {
-                print("Everyone is fine, file downloaded successfully.")
-                do{
-                    let json = try JSONSerialization.jsonObject(with: data!, options:.allowFragments) as! [String:AnyObject]
-                    if let results = json["results"] as? [[String: AnyObject]] {
-                        print(results)
-                        for legislator in results {
-                            let model = LegislatorModel.initLegislatorWithDict(data: legislator)
-                            
-
-                            self.legislators.append(model)
-                            self.legislators_backup.append(model)
-                        }
-                        self.legislators.sort { $0.state.compare($1.state) == .orderedAscending }
-                        self.legislators_backup.sort { $0.state.compare($1.state) == .orderedAscending }
+//    func downloadData2() -> Void {
+//        
+//        
+//        
+//        let requestURL: NSURL = NSURL(string: baseURLStr + "f=legislatorshouse")!
+//        let urlRequest: NSMutableURLRequest = NSMutableURLRequest(url: requestURL as URL)
+//        let session = URLSession.shared
+//        let task = session.dataTask(with: urlRequest as URLRequest) {
+//            (data, response, error) -> Void in
+//            
+//            let httpResponse = response as! HTTPURLResponse
+//            let statusCode = httpResponse.statusCode
+//            
+//            if (statusCode == 200) {
+//                print("Everyone is fine, file downloaded successfully.")
+//                do{
+//                    let json = try JSONSerialization.jsonObject(with: data!, options:.allowFragments) as! [String:AnyObject]
+//                    if let results = json["results"] as? [[String: AnyObject]] {
+//                        print(results)
+//                        for legislator in results {
+//                            let model = LegislatorModel.initLegislatorWithDict(data: legislator)
+//                            
+//
+//                            self.legislators.append(model)
+//                            self.legislators_backup.append(model)
+//                        }
+//                        self.legislators.sort { $0.state.compare($1.state) == .orderedAscending }
+//                        self.legislators_backup.sort { $0.state.compare($1.state) == .orderedAscending }
+////                        SwiftSpinner.hide()
 //                        SwiftSpinner.hide()
-                        SwiftSpinner.hide()
-                        self.tableView.reloadData()
-                    }
-                    
-                }catch {
-                    print("Error with Json: \(error)")
-                }
-            }
-            
-        }
-        
-        task.resume()
-    }
+//                        self.tableView.reloadData()
+//                    }
+//                    
+//                }catch {
+//                    print("Error with Json: \(error)")
+//                }
+//            }
+//            
+//        }
+//        
+//        task.resume()
+//    }
     
 
     override func didReceiveMemoryWarning() {
@@ -212,19 +257,26 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
 //        return self.legislators.count == 0 ? 0 : 1
-        return 1
+//        return 1
+        print("section number is: ")
+        print(self.indexArray.count)
+        return self.indexArray.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        print(self.legislators.count)
-        return self.legislators.count
+//        print(self.legislators.count)
+//        return self.legislators.count
+        let key = self.indexArray[section]
+        return (self.dataDict[key]?.count)!
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        let model = self.legislators[indexPath.row] 
+        let key = self.indexArray[indexPath.section]
+        let array = self.dataDict[key]
+        let model : LegislatorModel = (array?[indexPath.row])!
+//        let model = self.legislators[indexPath.row] 
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "legislatorsState")
         cell.textLabel?.text = model.name
         cell.detailTextLabel?.text = model.state
@@ -247,6 +299,10 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
         }
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return self.indexArray[section]
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
