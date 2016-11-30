@@ -39,15 +39,17 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
         self.pickerView.delegate = self
         self.pickerView.dataSource = self
         self.pickerView.isHidden = true
-        self.view.addSubview(self.pickerView)
+        self.parent?.view.addSubview(self.pickerView)
         
         self.pickerView.backgroundColor = UIColor.white
 //        createSearch()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        SwiftSpinner.show("Fetching Data...")
-        downloadData()
+        if (self.legislators_backup.count == 0) {
+            SwiftSpinner.show("Fetching Data...")
+            downloadData()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -125,6 +127,40 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
     }
     
     func downloadData() -> Void {
+        Alamofire.request(baseURLStr + "f=legislatorshouse").responseJSON { response in
+//            print(response.request)  // original URL request
+//            print(response.response) // HTTP URL response
+//            print(response.data)     // server data
+//            print(response.result)   // result of response serialization
+            
+            if let data = response.data {
+                do{
+                    let json = try JSONSerialization.jsonObject(with: data, options:.allowFragments) as! [String:AnyObject]
+                    if let results = json["results"] as? [[String: AnyObject]] {
+                        //                        print(results)
+                        for legislator in results {
+                            let model = LegislatorModel.initLegislatorWithDict(data: legislator)
+                            self.legislators.append(model)
+                            self.legislators_backup.append(model)
+                        }
+                        self.legislators.sort { $0.state.compare($1.state) == .orderedAscending }
+                        self.legislators_backup.sort { $0.state.compare($1.state) == .orderedAscending }
+                        //                        SwiftSpinner.hide()
+                        SwiftSpinner.hide()
+                        self.tableView.reloadData()
+                    }
+                    
+                }catch {
+                    print("Error with Json: \(error)")
+                }
+//                print("JSON: \(JSON)")
+            }
+        }
+    }
+    
+    func downloadData2() -> Void {
+        
+        
         
         let requestURL: NSURL = NSURL(string: baseURLStr + "f=legislatorshouse")!
         let urlRequest: NSMutableURLRequest = NSMutableURLRequest(url: requestURL as URL)
@@ -193,14 +229,14 @@ class LegislatorStateTableViewController: UITableViewController, UISearchBarDele
         
         let url = URL(string: legislatorThumbailURLStrBase + model.bioguide_id + ".jpg")
 
-        DispatchQueue.global().async {
-            if let data = try? Data(contentsOf: url!) {
-                DispatchQueue.main.async {
-                    cell.imageView?.image = UIImage(data: data)
-                    model.profile = data
-                }
-            }
-        }
+//        DispatchQueue.global().async {
+//            if let data = try? Data(contentsOf: url!) {
+//                DispatchQueue.main.async {
+//                    cell.imageView?.image = UIImage(data: data)
+//                    model.profile = data
+//                }
+//            }
+//        }
         return cell
     }
     
