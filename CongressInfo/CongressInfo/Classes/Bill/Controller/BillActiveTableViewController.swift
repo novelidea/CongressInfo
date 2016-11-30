@@ -112,15 +112,15 @@ class BillActiveTableViewController: UITableViewController, UISearchBarDelegate 
                             self.bills_backup.append(model)
                             SwiftSpinner.hide()
                         }
-                        let dateFormatter = DateFormatter()
-                        dateFormatter.dateFormat = "YYYY-MM-DD"
-                        //            let origin = dateFormatter.date(from: introduced_on)
-                        print(self.bills[0].introduced_on)
-                        //            self.bills.sort(by: {dateFormatter.date(from:$0.introduced_on)?.timeIntervalSince1970 < dateFormatter.date(from:$1.introduced_on).timeIntervalSince1970})
                         
-                        self.bills.sort { dateFormatter.date(from:$0.introduced_on)?.compare(dateFormatter.date(from:($1.introduced_on))!) == .orderedDescending }
+//                        let dateFormatter = DateFormatter()
+//                        dateFormatter.dateFormat = "YYYY-MM-DD"
+//                        
+//                        print(self.bills[0].introduced_on)
+//                        
+//                        
+//                        self.bills.sort { dateFormatter.date(from:$0.introduced_on)?.compare(dateFormatter.date(from:($1.introduced_on))!) == .orderedDescending }
                         
-                        //            self.bills.sort { $0.introduced_on.compare($1.introduced_on) == .orderedDescending }
                         print(self.bills[0].introduced_on)
                         self.tableView.reloadData()
 

@@ -69,13 +69,15 @@ class BillModel: NSObject {
             }
         }
         if let introduced_on = data["introduced_on"] as? String {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "YYYY-MM-DD"
-            let origin = dateFormatter.date(from: introduced_on)
-            
-            dateFormatter.dateStyle = DateFormatter.Style.medium
-            let convertedDate = dateFormatter.string(from: origin! as Date)
-            instance.introduced_on = convertedDate
+//            print(introduced_on)
+//            let dateFormatter = DateFormatter()
+//            dateFormatter.dateFormat = "YYYY-MM-DD"
+//            let origin = dateFormatter.date(from: introduced_on)
+//            
+//            dateFormatter.dateStyle = DateFormatter.Style.medium
+//            let convertedDate = dateFormatter.string(from: origin! as Date)
+//            instance.introduced_on = convertedDate
+            instance.introduced_on = introduced_on
         }
         return instance
     }
