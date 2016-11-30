@@ -28,6 +28,11 @@ class AboutViewController: UIViewController {
         infoLabel.text = "1847824832"
         infoLabel.textAlignment = .center
         self.view.addSubview(infoLabel)
+        
+        let nameLabel = UILabel(frame: CGRect(x: 30, y: screenHeight * 0.65, width: screenWidth - 2 * 30, height: 40))
+        nameLabel.text = "Pengfei Xing"
+        nameLabel.textAlignment = .center
+        self.view.addSubview(nameLabel)
     }
 
     override func didReceiveMemoryWarning() {
