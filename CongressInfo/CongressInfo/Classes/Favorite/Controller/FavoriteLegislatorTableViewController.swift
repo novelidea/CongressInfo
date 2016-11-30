@@ -118,18 +118,18 @@ class FavoriteLegislatorTableViewController: UITableViewController, UISearchBarD
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "legislatorsState")
         cell.textLabel?.text = model.name
         cell.detailTextLabel?.text = model.state
-        
-        let url = URL(string: legislatorThumbailURLStrBase + model.bioguide_id + ".jpg")
-        
-        DispatchQueue.global().async {
-            if let data = try? Data(contentsOf: url!) {
-                DispatchQueue.main.async {
-                    cell.imageView?.image = UIImage(data: data)
-                    model.profile = data
-                }
-            }
-            
-        }
+        cell.imageView?.image = UIImage(data: model.profile)
+//        let url = URL(string: legislatorThumbailURLStrBase + model.bioguide_id + ".jpg")
+//        
+//        DispatchQueue.global().async {
+//            if let data = try? Data(contentsOf: url!) {
+//                DispatchQueue.main.async {
+//                    cell.imageView?.image = UIImage(data: data)
+//                    model.profile = data
+//                }
+//            }
+//            
+//        }
         return cell
     }
     

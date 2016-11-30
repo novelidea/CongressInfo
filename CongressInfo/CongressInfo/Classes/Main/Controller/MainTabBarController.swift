@@ -163,7 +163,7 @@ class MainTabBarController: UITabBarController, MenuItemDelegate, UITabBarContro
 //        stateVC.title = "State"
 //        houseVC.title = "House"
 //        senateVC.title = "Senate"
-        stateVC.tabBarItem = TabBarItemView.initTabBarItemWithName(name: "State")
+        stateVC.tabBarItem = TabBarItemView.initTabBarItemWithName(name: "By States")
         houseVC.tabBarItem = TabBarItemView.initTabBarItemWithName(name: "House")
         senateVC.tabBarItem = TabBarItemView.initTabBarItemWithName(name: "Senate")
         let controllers = [stateVC, houseVC, senateVC]

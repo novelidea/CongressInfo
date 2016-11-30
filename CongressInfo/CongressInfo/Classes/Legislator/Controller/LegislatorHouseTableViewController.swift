@@ -142,6 +142,9 @@ class LegislatorHouseTableViewController: UITableViewController, UISearchBarDele
                     if let results = json["results"] as? [[String: AnyObject]] {
                         //                        print(results)
                         for legislator in results {
+                            if (legislator["website"] == nil) {
+                                print(legislator)
+                            }
                             let model = LegislatorModel.initLegislatorWithDict(data: legislator)
                             self.legislators.append(model)
                             self.legislators_backup.append(model)

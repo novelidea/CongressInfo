@@ -147,12 +147,19 @@ class LegislatorDetailViewController: UIViewController, UITableViewDelegate, UIT
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (indexPath.row == 7 && self.legislatorDetail.twitter.characters.count > 0) {
-            let url = "https://twitter.com/" + self.legislatorDetail.twitter
-            UIApplication.shared.openURL(URL(string: url)!)
-        } else if (indexPath.row == 8 && self.legislatorDetail.website.characters.count > 0) {
-            UIApplication.shared.openURL(URL(string: self.legislatorDetail.website)!)
+        if (indexPath.row == 7 || indexPath.row == 8) {
+            if (indexPath.row == 7 && self.legislatorDetail.twitter.characters.count > 0) {
+                let url = "https://twitter.com/" + self.legislatorDetail.twitter
+                UIApplication.shared.openURL(URL(string: url)!)
+            } else if (indexPath.row == 8 && self.legislatorDetail.website.characters.count > 0) {
+                UIApplication.shared.openURL(URL(string: self.legislatorDetail.website)!)
+            } else {
+                let alert = UIAlertController(title: "Alert", message: "Link doesn't exist", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
         }
+        
     }
     
 
