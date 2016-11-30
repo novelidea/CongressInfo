@@ -27,7 +27,7 @@ class BillNewTableViewController: UITableViewController, UISearchBarDelegate {
         self.tabBarController?.tabBar.isHidden = false
         navigationController?.navigationBar.topItem?.title = "Bill"
         self.tableView.rowHeight = 130
-        downloadData()
+//        downloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -35,8 +35,12 @@ class BillNewTableViewController: UITableViewController, UISearchBarDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        SwiftSpinner.show("Fetching Data...")
-        downloadData()
+//        SwiftSpinner.show("Fetching Data...")
+//        downloadData()
+        if (self.bills_backup.count == 0) {
+            SwiftSpinner.show("Fetching Data...")
+            downloadData()
+        }
     }
     
     func updateRighBarButton(){

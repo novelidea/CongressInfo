@@ -27,12 +27,16 @@ class CommitteeJointTableViewController: UITableViewController, UISearchBarDeleg
         self.tabBarController?.tabBar.isHidden = false
         navigationController?.navigationBar.topItem?.title = "Committee"
         //        self.tableView.rowHeight = 120
-        downloadData()
+//        downloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        SwiftSpinner.show("Fetching Data...")
-        downloadData()
+        if (self.committees_backup.count == 0) {
+            SwiftSpinner.show("Fetching Data...")
+            downloadData()
+        }
+//        SwiftSpinner.show("Fetching Data...")
+//        downloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
