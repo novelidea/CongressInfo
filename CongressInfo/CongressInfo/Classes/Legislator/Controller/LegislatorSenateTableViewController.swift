@@ -189,7 +189,22 @@ class LegislatorSenateTableViewController: UITableViewController, UISearchBarDel
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         //        print(searchText)
+//        if (searchText.characters.count == 0) {
+//            self.legislators = self.legislators_backup
+//        } else {
+//            var tmp : [LegislatorModel] = []
+//            for index in 1 ... self.legislators_backup.count - 1 {
+//                let model = self.legislators_backup[index]
+//                if (model.name.lowercased().contains(searchText.lowercased())) {
+//                    tmp.append(model)
+//                }
+//            }
+//            self.legislators = tmp
+//        }
+//        self.tableView.reloadData()
         if (searchText.characters.count == 0) {
+            self.indexArray = self.indexArray_backup
+            self.dataDict = self.dataDict_backup
             self.legislators = self.legislators_backup
         } else {
             var tmp : [LegislatorModel] = []
@@ -199,7 +214,31 @@ class LegislatorSenateTableViewController: UITableViewController, UISearchBarDel
                     tmp.append(model)
                 }
             }
-            self.legislators = tmp
+            self.dataDict = [:]
+            self.indexArray = []
+            for model in tmp {
+                let state = model.state
+                let letters = state.characters.map { String($0) }
+                let key = letters[0]
+                
+                if (self.dataDict[key] == nil) {
+                    self.indexArray.append(key)
+                    var valueArray : [LegislatorModel] = []
+                    valueArray.append(model)
+                    self.dataDict[key] = valueArray
+                } else {
+                    var valueArray : [LegislatorModel] = self.dataDict[key]!
+                    valueArray.append(model)
+                    self.dataDict[key] = valueArray
+                }
+            }
+            self.indexArray.sort { $0.compare($1) == .orderedAscending}
+            if (self.indexArray.count > 0) {
+                for i in 0 ... self.indexArray.count - 1 {
+                    let key = self.indexArray[i]
+                    self.dataDict[key]?.sort { $0.state.compare($1.state) == .orderedAscending }
+                }
+            }
         }
         self.tableView.reloadData()
     }
